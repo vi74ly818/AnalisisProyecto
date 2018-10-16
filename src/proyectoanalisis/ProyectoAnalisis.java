@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -71,6 +72,170 @@ public class ProyectoAnalisis {
                 j--;
             }
             lista.set(j + 1, aux);
+        }
+    }
+     
+         public void quickSortNumero(List<Integer> lista, int izq, int der) {
+
+        int i = izq;
+        int j = der;
+
+        int pivote = lista.get((izq + der) / 2);
+
+        do {
+            while (lista.get(i) < pivote) {
+                i++;
+            }
+            while (lista.get(j) > pivote) {
+                j--;
+            }
+
+            if (i <= j) {
+                int aux = lista.get(i);
+                lista.set(i, lista.get(j));
+                lista.set(j, aux);
+                i++;
+                j--;
+
+            }
+        } while (i <= j);
+        if (izq < j) {
+            quickSortNumero(lista, izq, j);
+        }
+        if (i < der) {
+            quickSortNumero(lista, i, der);
+        }
+    }
+
+
+    public void quickSortPalabra(List<String> lista, int indiceMenor, int indiceMayor) {
+
+        int i = indiceMenor;
+        int j = indiceMayor;
+
+        String pivote = lista.get(indiceMenor + (indiceMayor - indiceMenor) / 2);
+
+        do {
+            while (lista.get(i).compareToIgnoreCase(pivote) < 0) {
+                i++;
+            }
+            while (lista.get(j).compareToIgnoreCase(pivote) > 0) {
+                j--;
+            }
+
+            if (i <= j) {
+                String aux = lista.get(i);
+                lista.set(i, lista.get(j));
+                lista.set(j, aux);
+                i++;
+                j--;
+
+            }
+        } while (i <= j);
+        if (indiceMenor < j) {
+            quickSortPalabra(lista, indiceMenor, j);
+        }
+        if (i < indiceMayor) {
+            quickSortPalabra(lista, i, indiceMayor);
+        }
+    }
+
+    /**
+     *
+     * @param lista
+     */
+    public void bubbleSortNumero(List<Integer> lista) {
+
+        for (int i = 1; i < lista.size(); i++) {
+            for (int j = 0; j < lista.size() - i; j++) {
+                if (lista.get(j) > lista.get(j + 1)) {
+                    int aux = lista.get(j);
+                    lista.set(j, lista.get(j + 1));
+                    lista.set(j + 1, aux);
+                }
+            }
+        }
+
+    }
+
+    /**
+     *
+     * @param lista
+     */
+    public void bubbleSortPalabra(List<String> lista) {
+
+        for (int i = 1; i < lista.size(); i++) {
+            for (int j = 0; j < lista.size() - i; j++) {
+                if (lista.get(j).compareToIgnoreCase(lista.get(j + 1)) > 0) {
+                    String aux = lista.get(j);
+                    lista.set(j, lista.get(j + 1));
+                    lista.set(j + 1, aux);
+                }
+            }
+        }
+
+    }
+
+    /**
+     *
+     * @param lista
+     */
+    public void selectionSortNumero(List<Integer> lista) {
+        for (int i = 0; i < lista.size() - 1; i++) {
+            int menor = lista.get(i);
+            int pos = i;
+            for (int j = i + 1; j < lista.size(); j++) {
+                if (lista.get(j) < menor) {
+                    menor = lista.get(j);
+                    pos = j;
+                }
+            }
+            lista.set(pos, lista.get(i));
+            lista.set(i, menor);
+        }
+
+    }
+
+    /**
+     *
+     * @param lista
+     */
+    public void selectionSortPalabra(List<String> lista) {
+        for (int i = 0; i < lista.size() - 1; i++) {
+            String anterior = lista.get(i);
+            int pos = i;
+            for (int j = i + 1; j < lista.size(); j++) {
+                if (lista.get(j).compareToIgnoreCase(anterior) < 0) {
+                    anterior = lista.get(j);
+                    pos = j;
+                }
+            }
+            lista.set(pos, lista.get(i));
+            lista.set(i, anterior);
+        }
+    }
+
+
+    public void mergeSortPalabra(int izquierda, int mitadArreglo, int derecha, List<String> lista) {
+        int i, j, k;
+        List<String> arregloAuxiliar = new ArrayList<>();
+        for (i = izquierda; i <= derecha; i++) {
+            arregloAuxiliar.set(i, lista.get(i));
+        }
+        i = izquierda;
+        j = mitadArreglo + 1;
+        k = izquierda;
+        while (i <= mitadArreglo && j <= derecha)
+        {
+            if (arregloAuxiliar.get(i).compareToIgnoreCase(arregloAuxiliar.get(j)) <= 0) {
+                lista.set(k++, arregloAuxiliar.get(i++));
+            } else {
+                lista.set(k++, arregloAuxiliar.get(j++));
+            }
+
+        }
+        while (i <= mitadArreglo) { 
+            lista.set(k++, arregloAuxiliar.get(i++)); 
         }
     }
 
