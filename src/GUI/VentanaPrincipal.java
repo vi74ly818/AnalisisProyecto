@@ -4,13 +4,26 @@
  * and open the template in the editor.
  */
 package GUI;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import proyectoanalisis.ProyectoAnalisis;
+ 
 
 /**
  *
  * @author diego
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
-
+static Connection cn;
+ static Statement s;
+ static ResultSet rs;
     /**
      * Creates new form VentanaPrincipal
      */
@@ -30,12 +43,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jPNoOrdenados = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTNoOrdenados = new javax.swing.JTable();
+        jBCargarRegistros = new javax.swing.JButton();
         jPOrdenados = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTOrdenados = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jCBTipoOrdenamiento = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jCTipoDeDato = new javax.swing.JComboBox<>();
         jBOrdenar = new javax.swing.JButton();
         jBSalir = new javax.swing.JButton();
 
@@ -43,26 +59,27 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jPNoOrdenados.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos no ordenados"));
 
-        jTNoOrdenados.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jScrollPane1.setViewportView(jTNoOrdenados);
+
+        jBCargarRegistros.setText("Cargar registros");
+        jBCargarRegistros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBCargarRegistrosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPNoOrdenadosLayout = new javax.swing.GroupLayout(jPNoOrdenados);
         jPNoOrdenados.setLayout(jPNoOrdenadosLayout);
         jPNoOrdenadosLayout.setHorizontalGroup(
             jPNoOrdenadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPNoOrdenadosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPNoOrdenadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPNoOrdenadosLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPNoOrdenadosLayout.createSequentialGroup()
+                        .addGap(194, 194, 194)
+                        .addComponent(jBCargarRegistros)))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         jPNoOrdenadosLayout.setVerticalGroup(
@@ -70,22 +87,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPNoOrdenadosLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(348, 348, 348))
+                .addGap(18, 18, 18)
+                .addComponent(jBCargarRegistros)
+                .addGap(307, 307, 307))
         );
 
         jPOrdenados.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos ordenados"));
 
-        jTOrdenados.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jScrollPane2.setViewportView(jTOrdenados);
 
         javax.swing.GroupLayout jPOrdenadosLayout = new javax.swing.GroupLayout(jPOrdenados);
@@ -109,7 +117,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jLabel1.setText("Tipo de ordenamiento");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Insercion", "burbuja", "burbuja bidireccional", "gnome", "mezcla", "seleccion", "peine", "shell", "monticulos", "rapido" }));
+        jCBTipoOrdenamiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione opcion", "Insercion", "burbuja", "burbuja bidireccional", "gnome", "mezcla", "seleccion", "peine", "shell", "monticulos", "rapido" }));
+
+        jLabel2.setText("Tipo dato");
+
+        jCTipoDeDato.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione opcion", "numerico", "cadena", "fecha" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -119,8 +131,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGap(61, 61, 61)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addComponent(jCBTipoOrdenamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCTipoDeDato, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,11 +144,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCBTipoOrdenamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jCTipoDeDato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
 
         jBOrdenar.setText("Ordenar");
+        jBOrdenar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBOrdenarActionPerformed(evt);
+            }
+        });
 
         jBSalir.setText("Salir");
         jBSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -145,17 +168,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jPNoOrdenados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPOrdenados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(270, 270, 270)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,13 +177,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jBSalir)
                         .addGap(70, 70, 70))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPNoOrdenados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPOrdenados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(8, 8, 8)
+                .addGap(13, 13, 13)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPOrdenados, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPNoOrdenados, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -188,6 +210,72 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jBSalirActionPerformed
+
+    private void jBCargarRegistrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCargarRegistrosActionPerformed
+        try {
+            
+            DefaultTableModel modelo = new DefaultTableModel();
+            this.jTNoOrdenados.setModel(modelo);
+            String url = "jdbc:oracle:thin:@localhost:1521:XE";
+            cn = DriverManager.getConnection(url, "Analisis", "1234");
+            s = cn.createStatement();
+             rs = s.executeQuery("select * from ( select duracion, nombre from cancion c) pivot(count(duracion) for duracion in (100,1000,10000,100000)) order by nombre");
+            ResultSetMetaData rsMd = rs.getMetaData();
+            int cantidadColumnas = rsMd.getColumnCount();
+            for (int i = 1; i <= cantidadColumnas; i++) {
+             modelo.addColumn(rsMd.getColumnLabel(i));
+            }
+            while (rs.next()) {
+             Object[] fila = new Object[cantidadColumnas];
+             for (int i = 0; i < cantidadColumnas; i++) {
+               fila[i]=rs.getObject(i+1);
+             }
+             modelo.addRow(fila);
+            }
+            rs.close();
+            cn.close();
+       } catch (Exception ex) {
+        ex.printStackTrace();
+       }
+    }//GEN-LAST:event_jBCargarRegistrosActionPerformed
+
+    private void jBOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBOrdenarActionPerformed
+        // TODO add your handling code here:
+       
+         if(jCBTipoOrdenamiento.getSelectedIndex() != 0){
+            if(jCBTipoOrdenamiento.getSelectedIndex() == 1){
+               
+            }
+           if(jCBTipoOrdenamiento.getSelectedIndex() == 2){
+               
+            }
+           if(jCBTipoOrdenamiento.getSelectedIndex() == 3){
+               
+            }
+           if(jCBTipoOrdenamiento.getSelectedIndex() == 4){
+               
+            }
+           if(jCBTipoOrdenamiento.getSelectedIndex() == 5){
+               
+            }
+           if(jCBTipoOrdenamiento.getSelectedIndex() == 6){
+               
+            }
+           if(jCBTipoOrdenamiento.getSelectedIndex() == 7){
+               
+            }
+           if(jCBTipoOrdenamiento.getSelectedIndex() == 8){
+               
+            }
+           if(jCBTipoOrdenamiento.getSelectedIndex() == 9){
+               
+            }
+           if(jCBTipoOrdenamiento.getSelectedIndex() == 10){
+               
+            }
+         }
+        
+    }//GEN-LAST:event_jBOrdenarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,10 +313,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBCargarRegistros;
     private javax.swing.JButton jBOrdenar;
     private javax.swing.JButton jBSalir;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jCBTipoOrdenamiento;
+    private javax.swing.JComboBox<String> jCTipoDeDato;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPNoOrdenados;
     private javax.swing.JPanel jPOrdenados;
     private javax.swing.JPanel jPanel1;
@@ -238,3 +329,4 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTable jTOrdenados;
     // End of variables declaration//GEN-END:variables
 }
+
