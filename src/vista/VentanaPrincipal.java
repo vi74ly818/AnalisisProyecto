@@ -41,76 +41,42 @@ static Connection cn;
     private void initComponents() {
 
         jPNoOrdenados = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTNoOrdenados = new javax.swing.JTable();
-        jBCargarRegistros = new javax.swing.JButton();
         jPOrdenados = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTOrdenados = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jCBTipoOrdenamiento = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jCTipoDeDato = new javax.swing.JComboBox<>();
+        jBCargarRegistros = new javax.swing.JButton();
         jBOrdenar = new javax.swing.JButton();
         jBSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPNoOrdenados.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos no ordenados"));
-
-        jScrollPane1.setViewportView(jTNoOrdenados);
-
-        jBCargarRegistros.setText("Cargar registros");
-        jBCargarRegistros.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBCargarRegistrosActionPerformed(evt);
-            }
-        });
+        jPNoOrdenados.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Datos no ordenados"));
 
         javax.swing.GroupLayout jPNoOrdenadosLayout = new javax.swing.GroupLayout(jPNoOrdenados);
         jPNoOrdenados.setLayout(jPNoOrdenadosLayout);
         jPNoOrdenadosLayout.setHorizontalGroup(
             jPNoOrdenadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPNoOrdenadosLayout.createSequentialGroup()
-                .addGroup(jPNoOrdenadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPNoOrdenadosLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPNoOrdenadosLayout.createSequentialGroup()
-                        .addGap(194, 194, 194)
-                        .addComponent(jBCargarRegistros)))
-                .addContainerGap(30, Short.MAX_VALUE))
+            .addGap(0, 444, Short.MAX_VALUE)
         );
         jPNoOrdenadosLayout.setVerticalGroup(
             jPNoOrdenadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPNoOrdenadosLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jBCargarRegistros)
-                .addGap(307, 307, 307))
+            .addGap(0, 282, Short.MAX_VALUE)
         );
 
-        jPOrdenados.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos ordenados"));
-
-        jScrollPane2.setViewportView(jTOrdenados);
+        jPOrdenados.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Datos ordenados"));
 
         javax.swing.GroupLayout jPOrdenadosLayout = new javax.swing.GroupLayout(jPOrdenados);
         jPOrdenados.setLayout(jPOrdenadosLayout);
         jPOrdenadosLayout.setHorizontalGroup(
             jPOrdenadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPOrdenadosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+            .addGap(0, 409, Short.MAX_VALUE)
         );
         jPOrdenadosLayout.setVerticalGroup(
             jPOrdenadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPOrdenadosLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(348, 348, 348))
+            .addGap(0, 147, Short.MAX_VALUE)
         );
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -122,6 +88,13 @@ static Connection cn;
         jLabel2.setText("Tipo dato");
 
         jCTipoDeDato.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione opcion", "numerico", "cadena", "fecha" }));
+
+        jBCargarRegistros.setText("Cargar registros");
+        jBCargarRegistros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBCargarRegistrosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -136,6 +109,8 @@ static Connection cn;
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCTipoDeDato, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
+                .addComponent(jBCargarRegistros)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -148,6 +123,10 @@ static Connection cn;
                     .addComponent(jLabel2)
                     .addComponent(jCTipoDeDato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(47, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBCargarRegistros)
+                .addGap(32, 32, 32))
         );
 
         jBOrdenar.setText("Ordenar");
@@ -168,24 +147,23 @@ static Connection cn;
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jBOrdenar)
-                        .addGap(482, 482, 482))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jBSalir)
-                        .addGap(70, 70, 70))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPNoOrdenados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPOrdenados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jBSalir)
+                                .addGap(9, 9, 9))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(jBOrdenar)
+                                .addGap(35, 35, 35)
+                                .addComponent(jPOrdenados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 4, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -193,15 +171,22 @@ static Connection cn;
             .addGroup(layout.createSequentialGroup()
                 .addGap(13, 13, 13)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPOrdenados, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPNoOrdenados, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
-                .addComponent(jBOrdenar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                .addComponent(jBSalir)
-                .addGap(41, 41, 41))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPNoOrdenados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 24, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addComponent(jPOrdenados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(80, 80, 80)
+                                .addComponent(jBOrdenar)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBSalir)))
+                .addContainerGap())
         );
 
         pack();
@@ -215,7 +200,7 @@ static Connection cn;
         try {
             
             DefaultTableModel modelo = new DefaultTableModel();
-            this.jTNoOrdenados.setModel(modelo);
+           // this.jTNoOrdenados.setModel(modelo);
             String url = "jdbc:oracle:thin:@localhost:1521:XE";
             cn = DriverManager.getConnection(url, "Analisis", "1234");
             s = cn.createStatement();
@@ -323,10 +308,6 @@ static Connection cn;
     private javax.swing.JPanel jPNoOrdenados;
     private javax.swing.JPanel jPOrdenados;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTNoOrdenados;
-    private javax.swing.JTable jTOrdenados;
     // End of variables declaration//GEN-END:variables
 }
 
