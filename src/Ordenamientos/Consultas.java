@@ -26,6 +26,13 @@ public class Consultas {
     ResultSet rs;
     PreparedStatement ps;
 
+    /**
+     *
+     * @param quantity
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     public ArrayList<Cancion> selectCancion(int quantity) throws ClassNotFoundException, SQLException {
         Cancion c = new Cancion();
         ArrayList<Cancion> arrCancion = new ArrayList<Cancion>();
@@ -53,20 +60,55 @@ public class Consultas {
         }
         return arrCancion;
     }
+ public void insertarTiposMedidos(int id, String tipo_dato, String metodo_estructura, int cantidad_datos, double tiempo_medido) {
+        PreparedStatement tiempo;
 
-    public boolean InsertCancion(Cancion cancion) throws ClassNotFoundException, SQLException {
-        boolean insertion = false;
-        String consulta = "insert into cancion values(?,?,?,?)";
-        conexion = Conexion.getConnection();
-        st = Conexion.getStatement();
-        ps = Conexion.getPreparedStatement(consulta);
-        ps.setString(1, cancion.getNombre());
-        ps.setInt(2, cancion.getDuracion());
-        ps.setInt(3, cancion.getId());
-        ps.setDate(4, cancion.getLanzamiento());
-        ps.executeUpdate();
-        return (insertion);
+        try {
+            tiempo = this.conexion.prepareStatement("");
+            int i = 1;
 
+            ResultSet rst = tiempo.executeQuery();
+            if (rst.next()) {
+                i = rst.getInt(1);
+
+            }
+            tiempo = this.conexion.prepareStatement("INSERT INTO TIEMPOS_MEDIDOS (ID, TIPO_DATO,"
+                    + " METODO_ESTRUCTURA, CANTIDAD_DATOS, TIEMPO_MEDIDO) VALUES (?, ?, ?, ?, ?)");
+            tiempo.setInt(1, id);
+            tiempo.setString(2, tipo_dato);
+            tiempo.setString(3, metodo_estructura);
+            tiempo.setInt(4, cantidad_datos);
+            tiempo.setDouble(5, tiempo_medido);
+            System.out.printf("[INFO] Se ha insertado correctamente .\n");
+        } catch (SQLException sqlex) {
+            System.out.printf("[ERROR] No es posible insertar . Razon: " + sqlex.toString() + ".\n");
+        }
+ }
+
+    public void insertarCancion(int id, String tipo_dato, String metodo_estructura, int cantidad_datos, double tiempo_medido) {
+        PreparedStatement tiempo;
+
+        try {
+            tiempo = this.conexion.prepareStatement("");
+            int i = 1;
+
+            ResultSet rst = tiempo.executeQuery();
+            if (rst.next()) {
+                i = rst.getInt(1);
+
+            }
+            // Hacemos el INSERT
+            tiempo = this.conexion.prepareStatement("INSERT INTO TIEMPOS_MEDIDOS (ID, TIPO_DATO,"
+                    + " METODO_ESTRUCTURA, CANTIDAD_DATOS, TIEMPO_MEDIDO) VALUES (?, ?, ?, ?, ?)");
+            tiempo.setInt(1, id);
+            tiempo.setString(2, tipo_dato);
+            tiempo.setString(3, metodo_estructura);
+            tiempo.setInt(4, cantidad_datos);
+            tiempo.setDouble(5, tiempo_medido);
+            System.out.printf("[INFO] Se ha insertado correctamente .\n");
+        } catch (SQLException sqlex) {
+            System.out.printf("[ERROR] No es posible insertar . Razon: " + sqlex.toString() + ".\n");
+        }
     }
 
 }
