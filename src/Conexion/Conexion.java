@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 /**
  *
- * @author DARKLAST
+ * @author diego
  */
 public class Conexion {
      
