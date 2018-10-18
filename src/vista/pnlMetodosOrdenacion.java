@@ -5,7 +5,18 @@
  */
 package vista;
 
+import Ordenamientos.Consultas;
+import Ordenamientos.MetodosNumericos;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modelo.Cancion;
 
 /**
  *
@@ -16,11 +27,19 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
     /**
      * Creates new form pnlMetodosOrdenacion
      */
-    
     DefaultTableModel tabla;
-    
+    DefaultTableModel tablaOrden;
+    private List<Cancion> cancionArrayList, cancionOrderArrayList;
+    MetodosNumericos metodoNumerico;
+    Cancion cancion;
+    Consultas consulta;
+    private int numerico;
+    String c [];
+
     public pnlMetodosOrdenacion() {
         initComponents();
+        consulta = new Consultas();
+        tabla = new DefaultTableModel();
     }
 
     /**
@@ -43,7 +62,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jCBTipoDato = new javax.swing.JComboBox<>();
+        jCBTipoDatoOrdenar = new javax.swing.JComboBox<>();
         jCBTipoOrdenamiento = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -77,30 +96,8 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jTableDatosOrdenados.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jScrollPane2.setViewportView(jTableDatosOrdenados);
 
-        jTableDatosOriginales.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jScrollPane3.setViewportView(jTableDatosOriginales);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Ingresar Parametros"));
@@ -111,7 +108,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
 
         jLabel2.setText("Tipo de dato a ordenar :");
 
-        jCBTipoDato.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione opción", "Cadena", "Entero", "Fecha" }));
+        jCBTipoDatoOrdenar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione opción", "Numerico", "Cadena", "Fecha" }));
 
         jCBTipoOrdenamiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione opción", "Burbuja", "Burbuja bidireccional", "Mezcla", "Selección", "Peine", "Shell", "Rápido" }));
 
@@ -126,7 +123,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jCBTipoDato, 0, 171, Short.MAX_VALUE)
+                    .addComponent(jCBTipoDatoOrdenar, 0, 171, Short.MAX_VALUE)
                     .addComponent(jCBTipoOrdenamiento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
@@ -140,7 +137,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jCBTipoDato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCBTipoDatoOrdenar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -148,7 +145,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
 
         jLabel3.setText("Cantidad de elementos :");
 
-        jCBCantidadElementos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione opción", "100", "1000", "10000", "100000", "500000", "1000000" }));
+        jCBCantidadElementos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione opción", "10", "100", "1000", "10000", "100000", "500000", "1000000" }));
 
         btnCargarDatos.setBackground(new java.awt.Color(51, 51, 255));
         btnCargarDatos.setForeground(new java.awt.Color(255, 255, 255));
@@ -189,6 +186,11 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
         btnOrdenarDatos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnOrdenarDatos.setForeground(new java.awt.Color(255, 255, 255));
         btnOrdenarDatos.setText("ORDENAR DATOS");
+        btnOrdenarDatos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrdenarDatosActionPerformed(evt);
+            }
+        });
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Resultados"));
 
@@ -261,11 +263,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(103, 103, 103)
-                                .addComponent(btnOrdenarDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(btnNuevaOrdenacion, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -273,6 +271,10 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(113, 113, 113)
+                .addComponent(btnOrdenarDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -283,13 +285,13 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnOrdenarDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(7, 7, 7))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
@@ -332,12 +334,51 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCargarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarDatosActionPerformed
-   
-        
-        
-        
+        if (jCBTipoDatoOrdenar.getSelectedIndex() != 0) {
+
+            if (jCBTipoDatoOrdenar.getSelectedIndex() == 1) {
+                try {
+                    if (jCBCantidadElementos.getSelectedIndex() == 1) {
+                        tablaNumericos();
+                    }
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        if (jCBTipoDatoOrdenar.getSelectedIndex() == 2) {
+            try {
+                if (jCBCantidadElementos.getSelectedIndex() == 1 || jCBCantidadElementos.getSelectedIndex() == 2 || jCBCantidadElementos.getSelectedIndex() == 3) {
+                    tablaCadena();
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+            if (jCBTipoDatoOrdenar.getSelectedIndex() == 3) {
+                try {
+                    if (jCBCantidadElementos.getSelectedIndex() == 1 || jCBCantidadElementos.getSelectedIndex() == 2 || jCBCantidadElementos.getSelectedIndex() == 3) {
+                        tablaFecha();
+                    }
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+
+                }
+            }
+        }
+
     }//GEN-LAST:event_btnCargarDatosActionPerformed
 
+    private void btnOrdenarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarDatosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnOrdenarDatosActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -345,7 +386,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
     private javax.swing.JButton btnNuevaOrdenacion;
     private javax.swing.JButton btnOrdenarDatos;
     private javax.swing.JComboBox<String> jCBCantidadElementos;
-    private javax.swing.JComboBox<String> jCBTipoDato;
+    private javax.swing.JComboBox<String> jCBTipoDatoOrdenar;
     private javax.swing.JComboBox<String> jCBTipoOrdenamiento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -372,4 +413,166 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
     private javax.swing.JLabel lblTipoDato;
     private javax.swing.JLabel lblTipoOrdenamiento;
     // End of variables declaration//GEN-END:variables
+ /*public void orderNumericalArrayList(int cantidad, String metodo) {
+        if (jCBTipoOrdenamiento.getSelectedIndex() == 1) {
+            if (cancionArrayList.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No hay datos para organizar");
+            } else {
+
+                cancionOrderArrayList = new ArrayList<Cancion>();
+                for (int i = 0; i < cancionArrayList.size(); i++) {
+                    cancionOrderArrayList.add(cancionArrayList.get(i));
+                }
+
+                switch (metodo) {
+
+                    case "Burbuja":
+                        double startTime = System.nanoTime();
+                        metodoNumerico.bubbleSortNum(cancionOrderArrayList);
+                        double endTime = System.nanoTime();
+                        double totalTime = endTime - startTime;
+                        tabla = new DefaultTableModel();
+                        for (int i = 0; i < cancionOrderArrayList.size(); i++) {
+                            tabla.addColumn(cancionOrderArrayList.get(i).getDuracion());
+
+                        }
+                        jTableDatosOriginales.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoEstructura.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        System.out.println("Se registro");
+                        break;
+
+                    case "Burbuja bidireccional":
+                        startTime = System.nanoTime();
+                        metodoNumerico.bubbleSortNum(cancionOrderArrayList);
+                        endTime = System.nanoTime();
+                        totalTime = endTime - startTime;
+                        tabla = new DefaultTableModel();
+                        for (int i = 0; i < cancionOrderArrayList.size(); i++) {
+                            tabla.addColumn(cancionOrderArrayList.get(i).getDuracion());
+
+                        }
+                        jTableDatosOriginales.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoEstructura.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        System.out.println("Se registro");
+                        break;
+
+                    case "Mezcla":
+                        startTime = System.nanoTime();
+                        metodoNumerico.bubbleSortNum(cancionOrderArrayList);
+                        endTime = System.nanoTime();
+                        totalTime = endTime - startTime;
+                        tabla = new DefaultTableModel();
+                        for (int i = 0; i < cancionOrderArrayList.size(); i++) {
+                            tabla.addColumn(cancionOrderArrayList.get(i).getDuracion());
+
+                        }
+                        jTableDatosOriginales.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoEstructura.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        System.out.println("Se registro");
+                        break;
+
+                    case "Selección":
+                        startTime = System.nanoTime();
+                        metodoNumerico.bubbleSortNum(cancionOrderArrayList);
+                        endTime = System.nanoTime();
+                        totalTime = endTime - startTime;
+                        tabla = new DefaultTableModel();
+                        for (int i = 0; i < cancionOrderArrayList.size(); i++) {
+                            tabla.addColumn(cancionOrderArrayList.get(i).getDuracion());
+
+                        }
+                        jTableDatosOriginales.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoEstructura.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        System.out.println("Se registro");
+                        break;
+
+                    case "Peine":
+                        startTime = System.nanoTime();
+                        metodoNumerico.bubbleSortNum(cancionOrderArrayList);
+                        endTime = System.nanoTime();
+                        totalTime = endTime - startTime;
+                        tabla = new DefaultTableModel();
+                        for (int i = 0; i < cancionOrderArrayList.size(); i++) {
+                            tabla.addColumn(cancionOrderArrayList.get(i).getDuracion());
+
+                        }
+                        jTableDatosOriginales.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoEstructura.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        System.out.println("Se registro");
+                        break;
+
+                    case "Shell":
+                        startTime = System.nanoTime();
+                        metodoNumerico.bubbleSortNum(cancionOrderArrayList);
+                        endTime = System.nanoTime();
+                        totalTime = endTime - startTime;
+                        tabla = new DefaultTableModel();
+                        for (int i = 0; i < cancionOrderArrayList.size(); i++) {
+                            tabla.addColumn(cancionOrderArrayList.get(i).getDuracion());
+
+                        }
+                        jTableDatosOriginales.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoEstructura.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        System.out.println("Se registro");
+                        break;
+
+                    case "Rápido":
+                        startTime = System.nanoTime();
+                        metodoNumerico.bubbleSortNum(cancionOrderArrayList);
+                        endTime = System.nanoTime();
+                        totalTime = endTime - startTime;
+                        tabla = new DefaultTableModel();
+                        for (int i = 0; i < cancionOrderArrayList.size(); i++) {
+                            tabla.addColumn(cancionOrderArrayList.get(i).getDuracion());
+
+                        }
+                        jTableDatosOriginales.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoEstructura jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        System.out.println("Se registro");
+                        break;
+
+                }
+            }
+        }
+    }*/
+
+    public void tablaNumericos() throws ClassNotFoundException, SQLException {
+        numerico = Integer.parseInt((String) jCBCantidadElementos.getSelectedItem());
+        if (jCBTipoDatoOrdenar.getSelectedIndex() == 1) {
+            cancionArrayList = consulta.selectCancion(numerico);
+            tabla = new DefaultTableModel();
+            c = new String[cancionArrayList.size()];
+            for (int i = 0; i < cancionArrayList.size(); i++) {
+               c[i] = cancionArrayList.get(i).getNombre();
+               tabla.addRow(c);
+            }
+            jTableDatosOriginales.setModel(tabla);
+        }
+
+    }
+
+    public void tablaCadena() throws ClassNotFoundException, SQLException {
+        numerico = Integer.parseInt((String)jCBCantidadElementos.getSelectedItem());
+        if (jCBTipoDatoOrdenar.getSelectedIndex() == 2) {
+            cancionArrayList = consulta.selectCancion(numerico);
+            tabla = new DefaultTableModel();
+            for (int i = 0; i < cancionArrayList.size(); i++) {
+                tabla.addColumn(cancionArrayList.get(i).getNombre());
+            }
+            jTableDatosOriginales.setModel(tabla);
+        }
+    }
+
+    public void tablaFecha() throws ClassNotFoundException, SQLException {
+        numerico = Integer.parseInt((String) jCBCantidadElementos.getSelectedItem());
+        if (jCBTipoDatoOrdenar.getSelectedIndex() == 3) {
+            cancionArrayList = consulta.selectCancion(numerico);
+            tabla = new DefaultTableModel();
+            for (int i = 0; i < cancionArrayList.size(); i++) {
+               
+                
+            }
+            jTableDatosOriginales.setModel(tabla);
+        }
+    }
 }
