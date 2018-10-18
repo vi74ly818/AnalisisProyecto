@@ -7,6 +7,7 @@ package Ordenamientos;
 
 import Conexion.Conexion;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -60,51 +61,31 @@ public class Consultas {
         }
         return arrCancion;
     }
- public void insertarTiposMedidos(int id, String tipo_dato, String metodo_estructura, int cantidad_datos, double tiempo_medido) {
-        PreparedStatement tiempo;
+   
+
+    /**
+     * 
+     * @param nombre
+     * @param duracion
+     * @param id
+     * @param lanzamiento 
+     */
+    public void insertarCancion(String nombre, Integer duracion, int id, Date lanzamiento) {
+        PreparedStatement cancion;
 
         try {
-            tiempo = this.conexion.prepareStatement("");
+            cancion = this.conexion.prepareStatement("");
             int i = 1;
-
-            ResultSet rst = tiempo.executeQuery();
+            ResultSet rst = cancion.executeQuery();
             if (rst.next()) {
                 i = rst.getInt(1);
-
             }
-            tiempo = this.conexion.prepareStatement("INSERT INTO TIEMPOS_MEDIDOS (ID, TIPO_DATO,"
-                    + " METODO_ESTRUCTURA, CANTIDAD_DATOS, TIEMPO_MEDIDO) VALUES (?, ?, ?, ?, ?)");
-            tiempo.setInt(1, id);
-            tiempo.setString(2, tipo_dato);
-            tiempo.setString(3, metodo_estructura);
-            tiempo.setInt(4, cantidad_datos);
-            tiempo.setDouble(5, tiempo_medido);
-            System.out.printf("[INFO] Se ha insertado correctamente .\n");
-        } catch (SQLException sqlex) {
-            System.out.printf("[ERROR] No es posible insertar . Razon: " + sqlex.toString() + ".\n");
-        }
- }
-
-    public void insertarCancion(int id, String tipo_dato, String metodo_estructura, int cantidad_datos, double tiempo_medido) {
-        PreparedStatement tiempo;
-
-        try {
-            tiempo = this.conexion.prepareStatement("");
-            int i = 1;
-
-            ResultSet rst = tiempo.executeQuery();
-            if (rst.next()) {
-                i = rst.getInt(1);
-
-            }
-            // Hacemos el INSERT
-            tiempo = this.conexion.prepareStatement("INSERT INTO TIEMPOS_MEDIDOS (ID, TIPO_DATO,"
-                    + " METODO_ESTRUCTURA, CANTIDAD_DATOS, TIEMPO_MEDIDO) VALUES (?, ?, ?, ?, ?)");
-            tiempo.setInt(1, id);
-            tiempo.setString(2, tipo_dato);
-            tiempo.setString(3, metodo_estructura);
-            tiempo.setInt(4, cantidad_datos);
-            tiempo.setDouble(5, tiempo_medido);
+            
+            cancion = this.conexion.prepareStatement("INSERT INTO CANCION(NOMBRE, DURACION, ID, LANZAMIENTO) VALUES(?, ?, ?, ?)");
+            cancion.setString(1, nombre);
+            cancion.setInt(2, duracion);
+            cancion.setInt(3, id);
+            cancion.setDate(4, lanzamiento);
             System.out.printf("[INFO] Se ha insertado correctamente .\n");
         } catch (SQLException sqlex) {
             System.out.printf("[ERROR] No es posible insertar . Razon: " + sqlex.toString() + ".\n");
