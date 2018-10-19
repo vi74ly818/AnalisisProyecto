@@ -34,18 +34,18 @@ public class Consultas {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public ArrayList<Cancion> selectCancion(int quantity) throws ClassNotFoundException, SQLException {
+    public ArrayList<Cancion> selectCancion(int var) throws ClassNotFoundException, SQLException {
         Cancion c = new Cancion();
         ArrayList<Cancion> arrCancion = new ArrayList<Cancion>();
 
-        String consulta = ("select * from cancion order by dbms_random.value");
+        String consulta = ("select * from cancion where rownum <= "+var);
 
         conexion = Conexion.getConnection();
         st = Conexion.getStatement();
         rs = Conexion.getResultSet(consulta);
         int a = 0;
 
-        while (rs.next() && a < quantity) {
+        while (rs.next() && a < var) {
 
             c = new Cancion(rs.getString("nombre"),
                     rs.getInt("duracion"),
@@ -70,26 +70,26 @@ public class Consultas {
      * @param id
      * @param lanzamiento 
      */
-    public void insertarCancion(String nombre, Integer duracion, int id, Date lanzamiento) {
-        PreparedStatement cancion;
-
+    public void insertarTiempos(String tipo_dato, String metodo_estructura, int cantidad_datos, double tiempo_medido) {
+        PreparedStatement tiempo;
         try {
-            cancion = this.conexion.prepareStatement("");
-            int i = 1;
-            ResultSet rst = cancion.executeQuery();
+            tiempo = this.conexion.prepareStatement("select AUTO_TIEMPOS.NEXTVAL from dual");
+            int i = 0;
+            ResultSet rst = tiempo.executeQuery();
             if (rst.next()) {
                 i = rst.getInt(1);
             }
             
-            cancion = this.conexion.prepareStatement("INSERT INTO CANCION(NOMBRE, DURACION, ID, LANZAMIENTO) VALUES(?, ?, ?, ?)");
-            cancion.setString(1, nombre);
-            cancion.setInt(2, duracion);
-            cancion.setInt(3, id);
-            cancion.setDate(4, lanzamiento);
+            tiempo = this.conexion.prepareStatement("INSERT INTO TIEMPOS_MEDIDOS(ID, TIPO_DATO, METODO_ESTRUCTURA, CANTIDAD_DATOS, TIEMPO_MEDIDO) VALUES(?, ?, ?, ?, ?)");
+            tiempo.setInt(1, i);
+            tiempo.setString(2, tipo_dato);
+            tiempo.setString(3, metodo_estructura);
+            tiempo.setInt(4, cantidad_datos);
+            tiempo.setDouble(5, tiempo_medido);
+            
             System.out.printf("[INFO] Se ha insertado correctamente .\n");
         } catch (SQLException sqlex) {
             System.out.printf("[ERROR] No es posible insertar . Razon: " + sqlex.toString() + ".\n");
         }
     }
-
 }

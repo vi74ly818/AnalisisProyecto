@@ -15,7 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import modelo.Cancion;
 
 /**
@@ -27,19 +26,20 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
     /**
      * Creates new form pnlMetodosOrdenacion
      */
-    DefaultTableModel tabla;
-    DefaultTableModel tablaOrden;
-    private List<Cancion> cancionArrayList, cancionOrderArrayList;
+    DefaultListModel tabla;
+    DefaultListModel tablaOrden;
+    private List<Cancion> cancionArrayList, cancionOrdenada;
     MetodosNumericos metodoNumerico;
     Cancion cancion;
     Consultas consulta;
     private int numerico;
-    String c [];
 
     public pnlMetodosOrdenacion() {
         initComponents();
         consulta = new Consultas();
-        tabla = new DefaultTableModel();
+        tabla = new DefaultListModel();
+        tablaOrden = new DefaultListModel();
+        metodoNumerico = new MetodosNumericos();
     }
 
     /**
@@ -54,10 +54,6 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jProgressBar1 = new javax.swing.JProgressBar();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTableDatosOrdenados = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTableDatosOriginales = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -82,6 +78,10 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
         btnCancelar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jLDatosOriginales = new javax.swing.JList<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jLDatosOrdenados = new javax.swing.JList<>();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -95,10 +95,6 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
             }
         ));
         jScrollPane1.setViewportView(jTable1);
-
-        jScrollPane2.setViewportView(jTableDatosOrdenados);
-
-        jScrollPane3.setViewportView(jTableDatosOriginales);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Ingresar Parametros"));
 
@@ -300,6 +296,10 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
         jLabel4.setText("DATOS ORDENADOS");
 
+        jScrollPane4.setViewportView(jLDatosOriginales);
+
+        jScrollPane3.setViewportView(jLDatosOrdenados);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -311,7 +311,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel5)
                     .addComponent(jLabel4)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
                     .addComponent(jScrollPane3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -323,61 +323,45 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(jScrollPane3))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCargarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarDatosActionPerformed
-        if (jCBTipoDatoOrdenar.getSelectedIndex() != 0) {
-
-            if (jCBTipoDatoOrdenar.getSelectedIndex() == 1) {
-                try {
-                    if (jCBCantidadElementos.getSelectedIndex() == 1) {
-                        tablaNumericos();
-                    }
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        /**
+         * Me carga los registros de la base de datos dependiendo de la
+         */
+        try {
+            if (jCBCantidadElementos.getSelectedIndex() == 1 || jCBCantidadElementos.getSelectedIndex() == 2
+                    || jCBCantidadElementos.getSelectedIndex() == 3 || jCBCantidadElementos.getSelectedIndex() == 4
+                    || jCBCantidadElementos.getSelectedIndex() == 5 || jCBCantidadElementos.getSelectedIndex() == 6
+                    || jCBCantidadElementos.getSelectedIndex() == 7) {
+                llenarLista();
             }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if (jCBTipoDatoOrdenar.getSelectedIndex() == 2) {
-            try {
-                if (jCBCantidadElementos.getSelectedIndex() == 1 || jCBCantidadElementos.getSelectedIndex() == 2 || jCBCantidadElementos.getSelectedIndex() == 3) {
-                    tablaCadena();
-                }
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-
-            }
-            if (jCBTipoDatoOrdenar.getSelectedIndex() == 3) {
-                try {
-                    if (jCBCantidadElementos.getSelectedIndex() == 1 || jCBCantidadElementos.getSelectedIndex() == 2 || jCBCantidadElementos.getSelectedIndex() == 3) {
-                        tablaFecha();
-                    }
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-
-                }
-            }
-        }
 
     }//GEN-LAST:event_btnCargarDatosActionPerformed
 
     private void btnOrdenarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarDatosActionPerformed
-        // TODO add your handling code here:
+        if (jCBTipoOrdenamiento.getSelectedIndex() != 0) {
+            if (jCBTipoOrdenamiento.getSelectedIndex() == 1) {
+                if (jCBTipoDatoOrdenar.getSelectedIndex() == 1) {
+                    OrdenarNumericos(numerico, jCBTipoOrdenamiento.getSelectedItem().toString());
+                }
+            }
+        }
+
     }//GEN-LAST:event_btnOrdenarDatosActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -388,6 +372,8 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jCBCantidadElementos;
     private javax.swing.JComboBox<String> jCBTipoDatoOrdenar;
     private javax.swing.JComboBox<String> jCBTipoOrdenamiento;
+    private javax.swing.JList<String> jLDatosOrdenados;
+    private javax.swing.JList<String> jLDatosOriginales;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -403,176 +389,209 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTableDatosOrdenados;
-    private javax.swing.JTable jTableDatosOriginales;
     private javax.swing.JLabel lblCantidadElementos;
     private javax.swing.JLabel lblTiempo;
     private javax.swing.JLabel lblTipoDato;
     private javax.swing.JLabel lblTipoOrdenamiento;
     // End of variables declaration//GEN-END:variables
- /*public void orderNumericalArrayList(int cantidad, String metodo) {
+ public void OrdenarNumericos(int cantidad, String metodo) {
         if (jCBTipoOrdenamiento.getSelectedIndex() == 1) {
             if (cancionArrayList.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "No hay datos para organizar");
             } else {
 
-                cancionOrderArrayList = new ArrayList<Cancion>();
+                cancionOrdenada = new ArrayList<Cancion>();
                 for (int i = 0; i < cancionArrayList.size(); i++) {
-                    cancionOrderArrayList.add(cancionArrayList.get(i));
+                    cancionOrdenada.add(cancionArrayList.get(i));
                 }
 
                 switch (metodo) {
 
                     case "Burbuja":
-                        double startTime = System.nanoTime();
-                        metodoNumerico.bubbleSortNum(cancionOrderArrayList);
-                        double endTime = System.nanoTime();
-                        double totalTime = endTime - startTime;
-                        tabla = new DefaultTableModel();
-                        for (int i = 0; i < cancionOrderArrayList.size(); i++) {
-                            tabla.addColumn(cancionOrderArrayList.get(i).getDuracion());
+                        double inicioTiempo = System.nanoTime();
+                        metodoNumerico.burbujaNumerica(cancionOrdenada);
+                        double tiempoFin = System.nanoTime();
+                        double totalTime = tiempoFin - inicioTiempo;
+                        tablaOrden = new DefaultListModel();
+                        for (int i = 0; i < cancionOrdenada.size(); i++) {
+                            tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
 
                         }
-                        jTableDatosOriginales.setModel(tabla);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoEstructura.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        jLDatosOrdenados.setModel(tablaOrden);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoOrdenamiento.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
                         System.out.println("Se registro");
                         break;
 
-                    case "Burbuja bidireccional":
-                        startTime = System.nanoTime();
-                        metodoNumerico.bubbleSortNum(cancionOrderArrayList);
-                        endTime = System.nanoTime();
-                        totalTime = endTime - startTime;
-                        tabla = new DefaultTableModel();
-                        for (int i = 0; i < cancionOrderArrayList.size(); i++) {
-                            tabla.addColumn(cancionOrderArrayList.get(i).getDuracion());
+                        case "Burbuja bidireccional":
+                        inicioTiempo = System.nanoTime();
+                        metodoNumerico.OrdenarBurbujaBidireccionalList(cancionOrdenada);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        tablaOrden = new DefaultListModel();
+                        for (int i = 0; i < cancionOrdenada.size(); i++) {
+                            tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
 
                         }
-                        jTableDatosOriginales.setModel(tabla);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoEstructura.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                       jLDatosOrdenados.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoOrdenamiento.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        System.out.println("Se registro");
+                        break;
+
+                    case "Mezcla":
+                        inicioTiempo = System.nanoTime();
+                        metodoNumerico.mergeSort(cancionOrdenada);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        tablaOrden = new DefaultListModel();
+                        for (int i = 0; i < cancionOrdenada.size(); i++) {
+                            tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
+
+                        }
+                        jLDatosOrdenados.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoOrdenamiento.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        System.out.println("Se registro");
+                        break;
+
+                    case "Selección":
+                        inicioTiempo = System.nanoTime();
+                        metodoNumerico.selectionSortNum(cancionOrdenada);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        tablaOrden = new DefaultListModel();
+                        for (int i = 0; i < cancionOrdenada.size(); i++) {
+                            tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
+
+                        }
+                        jLDatosOrdenados.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoOrdenamiento.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        System.out.println("Se registro");
+                        break;
+
+
+                    case "Shell":
+                        inicioTiempo = System.nanoTime();
+                        metodoNumerico.ShellSortNum(cancionOrdenada);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        tablaOrden = new DefaultListModel();
+                        for (int i = 0; i < cancionOrdenada.size(); i++) {
+                           tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
+
+                        }
+                        jLDatosOrdenados.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoOrdenamiento.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        System.out.println("Se registro");
+                        break;
+
+                    case "Rápido":
+                        inicioTiempo = System.nanoTime();
+                        metodoNumerico.quickSortNum(cancionArrayList,0,cancionArrayList.size() - 1);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        tablaOrden = new DefaultListModel();
+                        for (int i = 0; i < cancionOrdenada.size(); i++) {
+                           tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
+
+                        }
+                        jLDatosOrdenados.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoOrdenamiento.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        System.out.println("Se registro");
+                        break;
+                     
+                    /* case "Burbuja bidireccional":
+                        startTime = System.nanoTime();
+                        metodoNumerico.OrdenarBurbujaBidireccionalList(cancionOrderArrayList);
+                        endTime = System.nanoTime();
+                        totalTime = endTime - startTime;
+                        tablaOrden = new DefaultListModel();
+                        for (int i = 0; i < cancionOrderArrayList.size(); i++) {
+                            tablaOrden.addElement(cancionOrderArrayList.get(i).getDuracion());
+
+                        }
+                       jLDatosOrdenados.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoOrdenamiento.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
                         System.out.println("Se registro");
                         break;
 
                     case "Mezcla":
                         startTime = System.nanoTime();
-                        metodoNumerico.bubbleSortNum(cancionOrderArrayList);
+                        metodoNumerico.mergeSort(cancionOrderArrayList);
                         endTime = System.nanoTime();
                         totalTime = endTime - startTime;
-                        tabla = new DefaultTableModel();
+                        tablaOrden = new DefaultListModel();
                         for (int i = 0; i < cancionOrderArrayList.size(); i++) {
-                            tabla.addColumn(cancionOrderArrayList.get(i).getDuracion());
+                            tablaOrden.addElement(cancionOrderArrayList.get(i).getDuracion());
 
                         }
-                        jTableDatosOriginales.setModel(tabla);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoEstructura.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        jLDatosOrdenados.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoOrdenamiento.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
                         System.out.println("Se registro");
                         break;
 
                     case "Selección":
                         startTime = System.nanoTime();
-                        metodoNumerico.bubbleSortNum(cancionOrderArrayList);
+                        metodoNumerico.selectionSortNum(cancionOrderArrayList);
                         endTime = System.nanoTime();
                         totalTime = endTime - startTime;
-                        tabla = new DefaultTableModel();
+                        tablaOrden = new DefaultListModel();
                         for (int i = 0; i < cancionOrderArrayList.size(); i++) {
-                            tabla.addColumn(cancionOrderArrayList.get(i).getDuracion());
+                            tablaOrden.addElement(cancionOrderArrayList.get(i).getDuracion());
 
                         }
-                        jTableDatosOriginales.setModel(tabla);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoEstructura.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        jLDatosOrdenados.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoOrdenamiento.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
                         System.out.println("Se registro");
                         break;
 
-                    case "Peine":
-                        startTime = System.nanoTime();
-                        metodoNumerico.bubbleSortNum(cancionOrderArrayList);
-                        endTime = System.nanoTime();
-                        totalTime = endTime - startTime;
-                        tabla = new DefaultTableModel();
-                        for (int i = 0; i < cancionOrderArrayList.size(); i++) {
-                            tabla.addColumn(cancionOrderArrayList.get(i).getDuracion());
-
-                        }
-                        jTableDatosOriginales.setModel(tabla);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoEstructura.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
-                        System.out.println("Se registro");
-                        break;
 
                     case "Shell":
                         startTime = System.nanoTime();
-                        metodoNumerico.bubbleSortNum(cancionOrderArrayList);
+                        metodoNumerico.ShellSortNum(cancionOrderArrayList);
                         endTime = System.nanoTime();
                         totalTime = endTime - startTime;
-                        tabla = new DefaultTableModel();
+                        tablaOrden = new DefaultListModel();
                         for (int i = 0; i < cancionOrderArrayList.size(); i++) {
-                            tabla.addColumn(cancionOrderArrayList.get(i).getDuracion());
+                           tablaOrden.addElement(cancionOrderArrayList.get(i).getDuracion());
 
                         }
-                        jTableDatosOriginales.setModel(tabla);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoEstructura.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        jLDatosOrdenados.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoOrdenamiento.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
                         System.out.println("Se registro");
                         break;
 
                     case "Rápido":
                         startTime = System.nanoTime();
-                        metodoNumerico.bubbleSortNum(cancionOrderArrayList);
+                        metodoNumerico.quickSortNum(cancionArrayList,0,cancionArrayList.size() - 1);
                         endTime = System.nanoTime();
                         totalTime = endTime - startTime;
-                        tabla = new DefaultTableModel();
+                        tablaOrden = new DefaultListModel();
                         for (int i = 0; i < cancionOrderArrayList.size(); i++) {
-                            tabla.addColumn(cancionOrderArrayList.get(i).getDuracion());
+                           tablaOrden.addElement(cancionOrderArrayList.get(i).getDuracion());
 
                         }
-                        jTableDatosOriginales.setModel(tabla);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoEstructura jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        jLDatosOrdenados.setModel(tabla);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoOrdenamiento.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
                         System.out.println("Se registro");
                         break;
-
+                     */
                 }
             }
         }
-    }*/
+    }
 
-    public void tablaNumericos() throws ClassNotFoundException, SQLException {
+    public void llenarLista() throws ClassNotFoundException, SQLException {
         numerico = Integer.parseInt((String) jCBCantidadElementos.getSelectedItem());
-        if (jCBTipoDatoOrdenar.getSelectedIndex() == 1) {
-            cancionArrayList = consulta.selectCancion(numerico);
-            tabla = new DefaultTableModel();
-            c = new String[cancionArrayList.size()];
-            for (int i = 0; i < cancionArrayList.size(); i++) {
-               c[i] = cancionArrayList.get(i).getNombre();
-               tabla.addRow(c);
-            }
-            jTableDatosOriginales.setModel(tabla);
+
+        cancionArrayList = consulta.selectCancion(numerico);
+        tabla = new DefaultListModel();
+        for (int i = 0; i < cancionArrayList.size(); i++) {
+            tabla.addElement("Nombre: " + cancionArrayList.get(i).getNombre() + "     " + "Duracion: " + cancionArrayList.get(i).getDuracion() + "     " + "Lanzamiento: " + cancionArrayList.get(i).getLanzamiento());
         }
+        jLDatosOriginales.setModel(tabla);
 
     }
 
-    public void tablaCadena() throws ClassNotFoundException, SQLException {
-        numerico = Integer.parseInt((String)jCBCantidadElementos.getSelectedItem());
-        if (jCBTipoDatoOrdenar.getSelectedIndex() == 2) {
-            cancionArrayList = consulta.selectCancion(numerico);
-            tabla = new DefaultTableModel();
-            for (int i = 0; i < cancionArrayList.size(); i++) {
-                tabla.addColumn(cancionArrayList.get(i).getNombre());
-            }
-            jTableDatosOriginales.setModel(tabla);
-        }
-    }
-
-    public void tablaFecha() throws ClassNotFoundException, SQLException {
-        numerico = Integer.parseInt((String) jCBCantidadElementos.getSelectedItem());
-        if (jCBTipoDatoOrdenar.getSelectedIndex() == 3) {
-            cancionArrayList = consulta.selectCancion(numerico);
-            tabla = new DefaultTableModel();
-            for (int i = 0; i < cancionArrayList.size(); i++) {
-               
-                
-            }
-            jTableDatosOriginales.setModel(tabla);
-        }
-    }
 }

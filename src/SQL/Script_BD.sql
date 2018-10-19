@@ -52,3 +52,7 @@ END;
 -- pruebas
 select * from cancion where id = 1000000;
 select count(id) as cantidadDatos from cancion;
+
+--Secuencia para los tiempos_medidos
+CREATE SEQUENCE AUTO_TIEMPOS START WITH 1
+INCREMENT BY 1;

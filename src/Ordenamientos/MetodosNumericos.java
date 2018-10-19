@@ -15,10 +15,8 @@ import java.util.List;
  */
 public class MetodosNumericos {
 
-    public MetodosNumericos() {
-    }
 
-    public List<Cancion> bubbleSortNum(List<Cancion> lista) {
+    public List<Cancion> burbujaNumerica(List<Cancion> lista) {
         for (int i = 1; i < lista.size(); i++) {
             for (int j = 0; j < lista.size() - i; j++) {
                 if (lista.get(j).getDuracion() > lista.get(j + 1).getDuracion()) {
@@ -26,13 +24,14 @@ public class MetodosNumericos {
                     lista.set(j, lista.get(j + 1));
                     lista.set(j + 1, aux);
                 }
-                System.out.println("saas" + lista.get(i));
+                System.out.println(" " + lista.get(i));
             }
 
         }
         return lista;
 
     }
+     
 
     public List<Cancion> insertionSortNum(List<Cancion> lista) {
         for (int i = 1; i < lista.size(); i++) {

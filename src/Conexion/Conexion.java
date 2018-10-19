@@ -17,7 +17,7 @@ public class Conexion {
     public static Connection getConnection() throws ClassNotFoundException,SQLException{
     Connection conexion =null;
     Class.forName("oracle.jdbc.OracleDriver");
-    conexion=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","Analisis","1234");
+        conexion=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","ANALISIS","1234");
     
     return conexion;
    
