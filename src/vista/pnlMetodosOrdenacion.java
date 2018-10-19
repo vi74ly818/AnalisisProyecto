@@ -245,6 +245,11 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
         );
 
         btnNuevaOrdenacion.setText("Nueva Ordenacion");
+        btnNuevaOrdenacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevaOrdenacionActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
 
@@ -366,6 +371,18 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_btnOrdenarDatosActionPerformed
+
+    private void btnNuevaOrdenacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaOrdenacionActionPerformed
+        jCBTipoOrdenamiento.setSelectedIndex(0);
+        jCBTipoDatoOrdenar.setSelectedIndex(0);
+        jCBCantidadElementos.setSelectedIndex(0);
+        lblTipoOrdenamiento.setText(" ");
+        lblTipoDato.setText(" ");
+        lblCantidadElementos.setText(" ");
+        lblTiempo.setText(" ");
+        jLDatosOriginales.setSelectionMode(0);
+        jLDatosOrdenados.setSelectionMode(0);
+    }//GEN-LAST:event_btnNuevaOrdenacionActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;

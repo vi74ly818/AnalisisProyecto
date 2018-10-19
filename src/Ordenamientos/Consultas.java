@@ -87,6 +87,15 @@ public class Consultas {
             tiempo.setInt(4, cantidad_datos);
             tiempo.setDouble(5, tiempo_medido);
             
+
+            tiempo = this.conexion.prepareStatement("INSERT INTO ANALISIS.TIEMPOS_MEDIDOS(ID, TIPO_DATO, METODO_ESTRUCTURA, CANTIDAD_DATOS, TIEMPO_MEDIDO) VALUES(?, ?, ?, ?, ?)");
+            tiempo.setInt(1, i);
+            tiempo.setString(2, tipo_dato);
+            tiempo.setString(3, metodo_estructura);
+            tiempo.setInt(4, cantidad_datos);
+            tiempo.setDouble(5, tiempo_medido);
+            
+            tiempo.executeUpdate();
             System.out.printf("[INFO] Se ha insertado correctamente .\n");
         } catch (SQLException sqlex) {
             System.out.printf("[ERROR] No es posible insertar . Razon: " + sqlex.toString() + ".\n");
