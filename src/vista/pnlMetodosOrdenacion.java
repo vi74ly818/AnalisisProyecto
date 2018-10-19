@@ -421,7 +421,10 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
 
                         }
                         jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoOrdenamiento.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
+                                jCBTipoOrdenamiento.getSelectedItem().toString(),
+                                jCBCantidadElementos.getSelectedIndex(),
+                                totalTime);
                         System.out.println("Se registro");
                         break;
 
@@ -482,7 +485,8 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
 
                         }
                         jLDatosOrdenados.setModel(tabla);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), jCBTipoOrdenamiento.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
+                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(), 
+                                jCBTipoOrdenamiento.getSelectedItem().toString(), jCBCantidadElementos.getSelectedIndex(), totalTime);
                         System.out.println("Se registro");
                         break;
 
