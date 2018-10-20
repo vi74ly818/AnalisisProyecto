@@ -5,17 +5,15 @@
  */
 package vista;
 
-import Ordenamientos.Consultas;
 import Ordenamientos.*;
-import java.sql.Date;
+import controlador.CtlOrdenamientoCancion;
+import static controlador.CtlOrdenamientoCancion.cancionArrayList;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import modelo.Cancion;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -26,20 +24,18 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
     /**
      * Creates new form pnlMetodosOrdenacion
      */
-    DefaultListModel tabla;
+    CtlOrdenamientoCancion ctlOrdenamientoCancion;
     DefaultListModel tablaOrden;
-    private List<Cancion> cancionArrayList, cancionOrdenada;
+
     MetodosNumericos metodoNumerico;
     MetodosCadenas metodoCadena;
     MetodosFecha metodoFecha;
-    Cancion cancion;
-    Consultas consulta;
-    private int numerico;
+
+
 
     public pnlMetodosOrdenacion() {
         initComponents();
-        consulta = new Consultas();
-        tabla = new DefaultListModel();
+        ctlOrdenamientoCancion = new CtlOrdenamientoCancion();
         tablaOrden = new DefaultListModel();
         metodoNumerico = new MetodosNumericos();
         metodoCadena = new MetodosCadenas();
@@ -82,10 +78,10 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
         btnCancelar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jLDatosOriginales = new javax.swing.JList<>();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jLDatosOrdenados = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblDatosOriginales = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tblDatosOrdenados = new javax.swing.JTable();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -296,7 +292,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                 .addComponent(btnOrdenarDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
@@ -305,9 +301,31 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
         jLabel4.setText("DATOS ORDENADOS");
 
-        jScrollPane4.setViewportView(jLDatosOriginales);
+        tblDatosOriginales.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tblDatosOriginales);
 
-        jScrollPane3.setViewportView(jLDatosOrdenados);
+        tblDatosOrdenados.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane5.setViewportView(tblDatosOrdenados);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -316,28 +334,28 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel5)
                     .addComponent(jLabel4)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -347,52 +365,41 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
          * Me carga los registros de la base de datos dependiendo de la
          */
         try {
-            if (jCBCantidadElementos.getSelectedIndex() == 1 || jCBCantidadElementos.getSelectedIndex() == 2
-                    || jCBCantidadElementos.getSelectedIndex() == 3 || jCBCantidadElementos.getSelectedIndex() == 4
-                    || jCBCantidadElementos.getSelectedIndex() == 5 || jCBCantidadElementos.getSelectedIndex() == 6
-                    || jCBCantidadElementos.getSelectedIndex() == 7) {
-                llenarLista();
+            if (jCBCantidadElementos.getSelectedIndex() != 0) {
+                ctlOrdenamientoCancion.llenarLista(Integer.parseInt(jCBCantidadElementos.getSelectedItem().toString()));
+                listarCanciones();
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
     }//GEN-LAST:event_btnCargarDatosActionPerformed
 
     private void btnOrdenarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarDatosActionPerformed
         if (jCBTipoOrdenamiento.getSelectedIndex() != 0) {
-            if (jCBTipoOrdenamiento.getSelectedIndex() == 1 || jCBTipoOrdenamiento.getSelectedIndex() == 2 || jCBTipoOrdenamiento.getSelectedIndex() == 3 || jCBTipoOrdenamiento.getSelectedIndex() == 4
-                    || jCBTipoOrdenamiento.getSelectedIndex() == 5 || jCBTipoOrdenamiento.getSelectedIndex() == 6) {
-                if (jCBTipoDatoOrdenar.getSelectedIndex() == 1) {
-                    OrdenarNumericos(numerico, jCBTipoOrdenamiento.getSelectedItem().toString());
-                    lblTipoOrdenamiento.setText((String) jCBTipoOrdenamiento.getSelectedItem());
-                    lblTipoDato.setText((String) jCBTipoDatoOrdenar.getSelectedItem());
-                    lblCantidadElementos.setText((String) jCBCantidadElementos.getSelectedItem());
-                }
+            if (jCBTipoDatoOrdenar.getSelectedIndex() == 1) {
+                OrdenarNumericos(jCBTipoOrdenamiento.getSelectedItem().toString());
+                listarCancionesOrdenadas();
+                lblTipoOrdenamiento.setText((String) jCBTipoOrdenamiento.getSelectedItem());
+                lblTipoDato.setText((String) jCBTipoDatoOrdenar.getSelectedItem());
+                lblCantidadElementos.setText((String) jCBCantidadElementos.getSelectedItem());
             }
-            if (jCBTipoOrdenamiento.getSelectedIndex() == 1 || jCBTipoOrdenamiento.getSelectedIndex() == 2 || jCBTipoOrdenamiento.getSelectedIndex() == 3 || jCBTipoOrdenamiento.getSelectedIndex() == 4
-                    || jCBTipoOrdenamiento.getSelectedIndex() == 5 || jCBTipoOrdenamiento.getSelectedIndex() == 6) {
-                if (jCBTipoDatoOrdenar.getSelectedIndex() == 2) {
-                    OrdenarCadena(numerico, jCBTipoOrdenamiento.getSelectedItem().toString());
-                    lblTipoOrdenamiento.setText((String) jCBTipoOrdenamiento.getSelectedItem());
-                    lblTipoDato.setText((String) jCBTipoDatoOrdenar.getSelectedItem());
-                    lblCantidadElementos.setText((String) jCBCantidadElementos.getSelectedItem());
-                }
+            if (jCBTipoDatoOrdenar.getSelectedIndex() == 2) {
+                OrdenarCadena(jCBTipoOrdenamiento.getSelectedItem().toString());
+                listarCancionesOrdenadas();
+                lblTipoOrdenamiento.setText((String) jCBTipoOrdenamiento.getSelectedItem());
+                lblTipoDato.setText((String) jCBTipoDatoOrdenar.getSelectedItem());
+                lblCantidadElementos.setText((String) jCBCantidadElementos.getSelectedItem());
             }
-             if (jCBTipoOrdenamiento.getSelectedIndex() == 1 || jCBTipoOrdenamiento.getSelectedIndex() == 2 || jCBTipoOrdenamiento.getSelectedIndex() == 3 || jCBTipoOrdenamiento.getSelectedIndex() == 4
-                    || jCBTipoOrdenamiento.getSelectedIndex() == 5 || jCBTipoOrdenamiento.getSelectedIndex() == 6) {
-                if (jCBTipoDatoOrdenar.getSelectedIndex() == 3) {
-                    OrdenarFecha(numerico, jCBTipoOrdenamiento.getSelectedItem().toString());
-                    lblTipoOrdenamiento.setText((String) jCBTipoOrdenamiento.getSelectedItem());
-                    lblTipoDato.setText((String) jCBTipoDatoOrdenar.getSelectedItem());
-                    lblCantidadElementos.setText((String) jCBCantidadElementos.getSelectedItem());
-                }
+            if (jCBTipoDatoOrdenar.getSelectedIndex() == 3) {
+                OrdenarFecha(jCBTipoOrdenamiento.getSelectedItem().toString());
+                listarCancionesOrdenadas();
+                lblTipoOrdenamiento.setText((String) jCBTipoOrdenamiento.getSelectedItem());
+                lblTipoDato.setText((String) jCBTipoDatoOrdenar.getSelectedItem());
+                lblCantidadElementos.setText((String) jCBCantidadElementos.getSelectedItem());
             }
         }
-
     }//GEN-LAST:event_btnOrdenarDatosActionPerformed
 
     private void btnNuevaOrdenacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaOrdenacionActionPerformed
@@ -403,8 +410,9 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
         lblTipoDato.setText(" ");
         lblCantidadElementos.setText(" ");
         lblTiempo.setText(" ");
-        jLDatosOriginales.setSelectionMode(0);
-        jLDatosOrdenados.setSelectionMode(0);
+        tblDatosOrdenados.setModel(new DefaultTableModel());
+        tblDatosOriginales.setModel(new DefaultTableModel());
+
     }//GEN-LAST:event_btnNuevaOrdenacionActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -415,8 +423,6 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jCBCantidadElementos;
     private javax.swing.JComboBox<String> jCBTipoDatoOrdenar;
     private javax.swing.JComboBox<String> jCBTipoOrdenamiento;
-    private javax.swing.JList<String> jLDatosOrdenados;
-    private javax.swing.JList<String> jLDatosOriginales;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -432,120 +438,67 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblCantidadElementos;
     private javax.swing.JLabel lblTiempo;
     private javax.swing.JLabel lblTipoDato;
     private javax.swing.JLabel lblTipoOrdenamiento;
+    private javax.swing.JTable tblDatosOrdenados;
+    private javax.swing.JTable tblDatosOriginales;
     // End of variables declaration//GEN-END:variables
- public void OrdenarNumericos(int cantidad, String metodo) {
-        if (jCBTipoOrdenamiento.getSelectedIndex() == 1 || jCBTipoOrdenamiento.getSelectedIndex() == 2
-                || jCBTipoOrdenamiento.getSelectedIndex() == 3 || jCBTipoOrdenamiento.getSelectedIndex() == 4
-                || jCBTipoOrdenamiento.getSelectedIndex() == 5 || jCBTipoOrdenamiento.getSelectedIndex() == 6) {
-            if (cancionArrayList.isEmpty()) {
+
+    public void OrdenarNumericos(String metodoOrdenacion) {
+        if (jCBTipoOrdenamiento.getSelectedIndex() != 0) {
+            if (ctlOrdenamientoCancion.getCantidadDatos()) {
                 JOptionPane.showMessageDialog(null, "No hay datos para organizar");
             } else {
-
-                cancionOrdenada = new ArrayList<Cancion>();
-                for (int i = 0; i < cancionArrayList.size(); i++) {
-                    cancionOrdenada.add(cancionArrayList.get(i));
-                }
-
-                switch (metodo) {
-
+                double inicioTiempo;
+                double tiempoFin;
+                double totalTime;
+                switch (metodoOrdenacion) {
                     case "Burbuja":
-                        double inicioTiempo = System.nanoTime();
-                        metodoNumerico.burbujaNumerica(cancionOrdenada);
-                        double tiempoFin = System.nanoTime();
-                        double totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
-
-                        }
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        inicioTiempo = System.nanoTime();
+                        metodoNumerico.burbujaNumerica(cancionArrayList);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        ctlOrdenamientoCancion.ingresarTiempo("Numerico", "Burbuja", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
-
                     case "Bidireccional":
                         inicioTiempo = System.nanoTime();
-                        metodoNumerico.burbujaNumerica(cancionOrdenada);
+                        metodoNumerico.OrdenarBurbujaBidireccionalNumerico(cancionArrayList);
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
-
-                        }
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        ctlOrdenamientoCancion.ingresarTiempo("Numerico", "Bidireccional", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
-
                     case "Mezcla":
                         inicioTiempo = System.nanoTime();
-                        metodoNumerico.mergeSort(cancionOrdenada);
+                        metodoNumerico.mergeSort(cancionArrayList);
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
-
-                        }
-
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        ctlOrdenamientoCancion.ingresarTiempo("Numerico", "Mezcla", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
 
                     case "Selección":
                         inicioTiempo = System.nanoTime();
-                        metodoNumerico.selectionSortNum(cancionOrdenada);
+                        metodoNumerico.selectionSortNum(cancionArrayList);
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
-
-                        }
-
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        ctlOrdenamientoCancion.ingresarTiempo("Numerico", "Selección", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
 
                     case "Shell":
                         inicioTiempo = System.nanoTime();
-                        metodoNumerico.ShellSortNum(cancionOrdenada);
+                        metodoNumerico.ShellSortNum(cancionArrayList);
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
-
-                        }
-
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        ctlOrdenamientoCancion.ingresarTiempo("Numerico", "Shell", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
 
                     case "Rápido":
@@ -553,133 +506,64 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         metodoNumerico.quickSortNum(cancionArrayList, 0, cancionArrayList.size() - 1);
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
-
-                        }
-
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        ctlOrdenamientoCancion.ingresarTiempo("Numerico", "Rápido", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
-
                 }
-
             }
         }
     }
 
-    public void OrdenarCadena(int cantidad, String metodo) {
-        if (jCBTipoOrdenamiento.getSelectedIndex() == 1 || jCBTipoOrdenamiento.getSelectedIndex() == 2
-                || jCBTipoOrdenamiento.getSelectedIndex() == 3 || jCBTipoOrdenamiento.getSelectedIndex() == 4
-                || jCBTipoOrdenamiento.getSelectedIndex() == 5 || jCBTipoOrdenamiento.getSelectedIndex() == 6) {
-            if (cancionArrayList.isEmpty()) {
+    public void OrdenarCadena(String metodoOrdenacion) {
+       if (jCBTipoOrdenamiento.getSelectedIndex() != 0) {
+            if (ctlOrdenamientoCancion.getCantidadDatos()) {
                 JOptionPane.showMessageDialog(null, "No hay datos para organizar");
             } else {
-
-                cancionOrdenada = new ArrayList<Cancion>();
-                for (int i = 0; i < cancionArrayList.size(); i++) {
-                    cancionOrdenada.add(cancionArrayList.get(i));
-                }
-
-                switch (metodo) {
-
+                double inicioTiempo;
+                double tiempoFin;
+                double totalTime;
+                switch (metodoOrdenacion) {
                     case "Burbuja":
-                        double inicioTiempo = System.nanoTime();
-                        metodoCadena.burbujaCadena(cancionOrdenada);
-                        double tiempoFin = System.nanoTime();
-                        double totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
-
-                        }
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        inicioTiempo = System.nanoTime();
+                        metodoCadena.burbujaCadena(cancionArrayList);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Burbuja", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
-
                     case "Bidireccional":
                         inicioTiempo = System.nanoTime();
-                        metodoCadena.OrdenarBurbujaBidireccionalCadena(cancionOrdenada);
+                        metodoCadena.OrdenarBurbujaBidireccionalCadena(cancionArrayList);
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
-
-                        }
-
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Bidireccional", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
-
                     case "Mezcla":
                         inicioTiempo = System.nanoTime();
-                        metodoCadena.mergeCadena(cancionOrdenada);
+                        metodoCadena.mergeCadena(cancionArrayList);
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
-
-                        }
-
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Mezcla", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
 
                     case "Selección":
                         inicioTiempo = System.nanoTime();
-                        metodoCadena.selectionSortCadena(cancionOrdenada);
+                        metodoCadena.selectionSortCadena(cancionArrayList);
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
-
-                        }
-
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Selección", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
 
                     case "Shell":
                         inicioTiempo = System.nanoTime();
-                        metodoCadena.ShellCadena(cancionOrdenada);
+                        metodoCadena.ShellCadena(cancionArrayList);
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
-
-                        }
-
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Shell", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
 
                     case "Rápido":
@@ -687,133 +571,64 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         metodoCadena.quickSortCadena(cancionArrayList, 0, cancionArrayList.size() - 1);
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getDuracion());
-
-                        }
-
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Rápido", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
-
                 }
-
             }
         }
     }
 
-    public void OrdenarFecha(int cantidad, String metodo) {
-        if (jCBTipoOrdenamiento.getSelectedIndex() == 1 || jCBTipoOrdenamiento.getSelectedIndex() == 2
-                || jCBTipoOrdenamiento.getSelectedIndex() == 3 || jCBTipoOrdenamiento.getSelectedIndex() == 4
-                || jCBTipoOrdenamiento.getSelectedIndex() == 5 || jCBTipoOrdenamiento.getSelectedIndex() == 6) {
-            if (cancionArrayList.isEmpty()) {
+    public void OrdenarFecha(String metodoOrdenacion) {
+          if (jCBTipoOrdenamiento.getSelectedIndex() != 0) {
+            if (ctlOrdenamientoCancion.getCantidadDatos()) {
                 JOptionPane.showMessageDialog(null, "No hay datos para organizar");
             } else {
-
-                cancionOrdenada = new ArrayList<Cancion>();
-                for (int i = 0; i < cancionArrayList.size(); i++) {
-                    cancionOrdenada.add(cancionArrayList.get(i));
-                }
-
-                switch (metodo) {
-
+                double inicioTiempo;
+                double tiempoFin;
+                double totalTime;
+                switch (metodoOrdenacion) {
                     case "Burbuja":
-                        double inicioTiempo = System.nanoTime();
-                        metodoFecha.OrdenarBurbujaList(cancionOrdenada);
-                        double tiempoFin = System.nanoTime();
-                        double totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getLanzamiento());
-
-                        }
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        inicioTiempo = System.nanoTime();
+                        metodoFecha.OrdenarBurbujaList(cancionArrayList);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        ctlOrdenamientoCancion.ingresarTiempo("Fecha", "Burbuja", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
-
                     case "Bidireccional":
                         inicioTiempo = System.nanoTime();
-                        metodoFecha.OrdenarBurbujaBidireccionalList(cancionOrdenada);
+                        metodoFecha.OrdenarBurbujaBidireccionalList(cancionArrayList);
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getLanzamiento());
-
-                        }
-
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        ctlOrdenamientoCancion.ingresarTiempo("Fecha", "Bidireccional", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
-
                     case "Mezcla":
                         inicioTiempo = System.nanoTime();
-                        metodoFecha.mergeSort(cancionOrdenada);
+                        metodoFecha.mergeSort(cancionArrayList);
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getLanzamiento());
-
-                        }
-
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        ctlOrdenamientoCancion.ingresarTiempo("Fecha", "Mezcla", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
 
                     case "Selección":
                         inicioTiempo = System.nanoTime();
-                        metodoFecha.selectionSortList(cancionOrdenada);
+                        metodoFecha.selectionSortList(cancionArrayList);
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getLanzamiento());
-
-                        }
-
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        ctlOrdenamientoCancion.ingresarTiempo("Fecha", "Selección", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
 
                     case "Shell":
                         inicioTiempo = System.nanoTime();
-                        metodoFecha.ShellSortCaracterList(cancionOrdenada);
+                        metodoFecha.ShellSortCaracterList(cancionArrayList);
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getLanzamiento());
-
-                        }
-
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        ctlOrdenamientoCancion.ingresarTiempo("Fecha", "Shell", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
 
                     case "Rápido":
@@ -821,36 +636,22 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         metodoFecha.ordenarQuicksortList(cancionArrayList, 0, cancionArrayList.size() - 1);
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
-                        tablaOrden = new DefaultListModel();
-                        for (int i = 0; i < cancionOrdenada.size(); i++) {
-                            tablaOrden.addElement(cancionOrdenada.get(i).getLanzamiento());
-
-                        }
-
-                        jLDatosOrdenados.setModel(tablaOrden);
-                        consulta.insertarTiempos(jCBTipoDatoOrdenar.getSelectedItem().toString(),
-                                jCBTipoOrdenamiento.getSelectedItem().toString(),
-                                cantidad,
-                                totalTime);
-                        System.out.println("Se registro");
+                        ctlOrdenamientoCancion.ingresarTiempo("Fecha", "Rápido", totalTime);
+                        lblTiempo.setText(totalTime+"");
                         break;
-
                 }
-
             }
         }
     }
 
-    public void llenarLista() throws ClassNotFoundException, SQLException {
-        numerico = Integer.parseInt((String) jCBCantidadElementos.getSelectedItem());
-
-        cancionArrayList = consulta.selectCancion(numerico);
-        tabla = new DefaultListModel();
-        for (int i = 0; i < cancionArrayList.size(); i++) {
-            tabla.addElement("Nombre: " + cancionArrayList.get(i).getNombre() + "     " + "Duracion: " + cancionArrayList.get(i).getDuracion() + "     " + "Lanzamiento: " + cancionArrayList.get(i).getLanzamiento());
-        }
-        jLDatosOriginales.setModel(tabla);
-
+        /**
+         * Hola ¿Como estas?
+         */
+    private void listarCanciones(){
+        tblDatosOriginales.setModel(ctlOrdenamientoCancion.listarCanciones());
     }
 
+    private void listarCancionesOrdenadas(){
+        tblDatosOrdenados.setModel(ctlOrdenamientoCancion.listarCanciones());
+    }
 }
