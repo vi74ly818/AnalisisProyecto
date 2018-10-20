@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class MetodosCadenas {
 
-    public List<Cancion> quickSortNombreList(List<Cancion> lista, int indiceMenor, int indiceMayor) {
+    public List<Cancion> quickSortCadena(List<Cancion> lista, int indiceMenor, int indiceMayor) {
 
         int i = indiceMenor;
         int j = indiceMayor;
@@ -41,10 +41,10 @@ public class MetodosCadenas {
             }
         } while (i <= j);
         if (indiceMenor < j) {
-            quickSortNombreList(lista, indiceMenor, j);
+            quickSortCadena(lista, indiceMenor, j);
         }
         if (i < indiceMayor) {
-            quickSortNombreList(lista, i, indiceMayor);
+            quickSortCadena(lista, i, indiceMayor);
         }
         return lista;
     }
@@ -54,7 +54,7 @@ public class MetodosCadenas {
      *
      * @param lista
      */
-    public List<Cancion> bubbleSortList(List<Cancion> lista) {
+    public List<Cancion> burbujaCadena(List<Cancion> lista) {
 
         for (int i = 1; i < lista.size(); i++) {
             for (int j = 0; j < lista.size() - i; j++) {
@@ -73,7 +73,7 @@ public class MetodosCadenas {
      *
      * @param lista
      */
-    public List<Cancion> selectionSortList(List<Cancion> lista) {
+    public List<Cancion> selectionSortCadena(List<Cancion> lista) {
         for (int i = 0; i < lista.size() - 1; i++) {
             Cancion anterior = lista.get(i);
             int pos = i;
@@ -118,7 +118,7 @@ public class MetodosCadenas {
      * @param arregloDesorden
      * @return
      */
-    public List<Cancion> OrdenarBurbujaBidireccionalList(List<Cancion> lista) {
+    public List<Cancion> OrdenarBurbujaBidireccionalCadena(List<Cancion> lista) {
 
         int izquierda = 1, derecha = lista.size() - 1, ultimo = lista.size() - 1;
 
@@ -155,7 +155,7 @@ public class MetodosCadenas {
     }
     
     
-    public List<Cancion> ShellSortNombreList(List<Cancion> lista) {
+    public List<Cancion> ShellCadena(List<Cancion> lista) {
         int salto, i, j, k;
         Cancion auxiliar;
 
@@ -186,7 +186,7 @@ public class MetodosCadenas {
 
     
     
-    public List<Cancion> mergeSort(List<Cancion> whole) {
+    public List<Cancion> mergeCadena(List<Cancion> whole) {
         List<Cancion> left = new ArrayList<Cancion>();
         List<Cancion> right = new ArrayList<Cancion>();
         int center;
@@ -206,8 +206,8 @@ public class MetodosCadenas {
             }
  
             // Sort the left and right halves of the arraylist.
-            left  = mergeSort(left);
-            right = mergeSort(right);
+            left  = mergeCadena(left);
+            right = mergeCadena(right);
  
             // Merge the results back together.
             merge(left, right, whole);

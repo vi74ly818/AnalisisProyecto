@@ -24,7 +24,7 @@ public class MetodosNumericos {
                     lista.set(j, lista.get(j + 1));
                     lista.set(j + 1, aux);
                 }
-                System.out.println(" " + lista.get(i));
+                System.out.println(lista.get(i));
             }
 
         }
@@ -203,7 +203,7 @@ public class MetodosNumericos {
      * @param arregloDesorden
      * @return
      */
-    public List<Cancion> OrdenarBurbujaBidireccionalList(List<Cancion> lista) {
+    public List<Cancion> OrdenarBurbujaBidireccionalNumerico(List<Cancion> lista) {
 
         int izquierda = 1, derecha = lista.size() - 1, ultimo = lista.size() - 1;
 
