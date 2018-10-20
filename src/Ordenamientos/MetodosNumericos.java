@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class MetodosNumericos {
 
+
     public List<Cancion> burbujaNumerica(List<Cancion> lista) {
         for (int i = 1; i < lista.size(); i++) {
             for (int j = 0; j < lista.size() - i; j++) {
@@ -30,6 +31,7 @@ public class MetodosNumericos {
         return lista;
 
     }
+     
 
     public List<Cancion> insertionSortNum(List<Cancion> lista) {
         for (int i = 1; i < lista.size(); i++) {
@@ -260,60 +262,4 @@ public class MetodosNumericos {
         return -1;
     }
 
-    static void gnomeSort(int[] theArray) {
-        for (int index = 1; index < theArray.length;) {
-            if (theArray[index - 1] <= theArray[index]) {
-                ++index;
-            } else {
-                int tempVal = theArray[index];
-                theArray[index] = theArray[index - 1];
-                theArray[index - 1] = tempVal;
-                --index;
-                if (index == 0) {
-                    index = 1;
-                }
-            }
-        }
-    }
-
-    /**
-     * 
-     * @param arr
-     * @param arr2 
-     */
-    public void fnSortHeap(int arr[], int arr2) {
-        int i, o;
-        int lCh, rCh, mCh, root, tmp;
-        root = (arr2 - 1) / 2;
-
-        for (o = root; o >= 0; o--) {
-            for (i = root; i >= 0; i--) {
-                lCh = (2 * i) + 1;
-                rCh = (2 * i) + 2;
-                if ((lCh <= arr2) && (rCh <= arr2)) {
-                    if (arr[rCh] >= arr[lCh]) {
-                        mCh = rCh;
-                    } else {
-                        mCh = lCh;
-                    }
-                } else {
-                    if (rCh > arr2) {
-                        mCh = lCh;
-                    } else {
-                        mCh = rCh;
-                    }
-                }
-
-                if (arr[i] < arr[mCh]) {
-                    tmp = arr[i];
-                    arr[i] = arr[mCh];
-                    arr[mCh] = tmp;
-                }
-            }
-        }
-        tmp = arr[0];
-        arr[0] = arr[arr2];
-        arr[arr2] = tmp;
-        return;
-    }
 }

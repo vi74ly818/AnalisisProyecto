@@ -15,9 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import modelo.Cancion;
-import modelo.Tiempos_Medidos;
 
 /**
  *
@@ -384,7 +382,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                     lblCantidadElementos.setText((String) jCBCantidadElementos.getSelectedItem());
                 }
             }
-            if (jCBTipoOrdenamiento.getSelectedIndex() == 1 || jCBTipoOrdenamiento.getSelectedIndex() == 2 || jCBTipoOrdenamiento.getSelectedIndex() == 3 || jCBTipoOrdenamiento.getSelectedIndex() == 4
+             if (jCBTipoOrdenamiento.getSelectedIndex() == 1 || jCBTipoOrdenamiento.getSelectedIndex() == 2 || jCBTipoOrdenamiento.getSelectedIndex() == 3 || jCBTipoOrdenamiento.getSelectedIndex() == 4
                     || jCBTipoOrdenamiento.getSelectedIndex() == 5 || jCBTipoOrdenamiento.getSelectedIndex() == 6) {
                 if (jCBTipoDatoOrdenar.getSelectedIndex() == 3) {
                     OrdenarFecha(numerico, jCBTipoOrdenamiento.getSelectedItem().toString());
@@ -843,7 +841,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
         }
     }
 
-      public void llenarLista() throws ClassNotFoundException, SQLException {
+    public void llenarLista() throws ClassNotFoundException, SQLException {
         numerico = Integer.parseInt((String) jCBCantidadElementos.getSelectedItem());
 
         cancionArrayList = consulta.selectCancion(numerico);
@@ -854,4 +852,5 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
         jLDatosOriginales.setModel(tabla);
 
     }
+
 }
