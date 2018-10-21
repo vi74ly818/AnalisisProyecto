@@ -253,7 +253,11 @@ public class MetodosCadenas {
             wholeIndex++;
         }
     }
-    
+    /**
+     * 
+     * @param lista
+     * @return 
+     */
      public List<Cancion> ordenarGnome(List<Cancion> lista) {
         for (int i = 0; i < lista.size(); i++) {
             burbujaCadena(lista);
@@ -261,6 +265,11 @@ public class MetodosCadenas {
         return lista;
     }
     
+     /**
+      * 
+      * @param lista
+      * @return 
+      */
     public List<Cancion> peine (List<Cancion> lista) {
                 boolean permut = true;
 		// A gap starting from the length
