@@ -8,6 +8,7 @@ package vista;
 import Ordenamientos.*;
 import controlador.CtlOrdenamientoCancion;
 import static controlador.CtlOrdenamientoCancion.cancionArrayList;
+import static controlador.CtlOrdenamientoCancion.cancionArreglo;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,8 +31,6 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
     MetodosNumericos metodoNumerico;
     MetodosCadenas metodoCadena;
     MetodosFecha metodoFecha;
-
-
 
     public pnlMetodosOrdenacion() {
         initComponents();
@@ -106,7 +105,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
 
         jCBTipoDatoOrdenar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione opción", "Numerico", "Cadena", "Fecha" }));
 
-        jCBTipoOrdenamiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione opción", "Burbuja", "Bidireccional", "Mezcla", "Selección", "Shell", "Rápido" }));
+        jCBTipoOrdenamiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione opción", "Burbuja", "Bidireccional", "Mezcla", "Selección", "Inserción", "Shell", "Rápido", "Gnome", "Peine" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -464,7 +463,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Numerico", "Burbuja", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
                         break;
                     case "Bidireccional":
                         inicioTiempo = System.nanoTime();
@@ -472,7 +471,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Numerico", "Bidireccional", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
                         break;
                     case "Mezcla":
                         inicioTiempo = System.nanoTime();
@@ -480,7 +479,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Numerico", "Mezcla", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
                         break;
 
                     case "Selección":
@@ -489,7 +488,16 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Numerico", "Selección", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
+                        break;
+
+                    case "Inserción":
+                        inicioTiempo = System.nanoTime();
+                        metodoNumerico.insertionSortNum(cancionArrayList);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Inserción", totalTime);
+                        lblTiempo.setText(totalTime + "");
                         break;
 
                     case "Shell":
@@ -498,7 +506,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Numerico", "Shell", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
                         break;
 
                     case "Rápido":
@@ -507,7 +515,25 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Numerico", "Rápido", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
+                        break;
+                        
+                         case "Gnome":
+                        inicioTiempo = System.nanoTime();
+                        metodoNumerico.ordenarGnome(cancionArrayList);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        ctlOrdenamientoCancion.ingresarTiempo("Numerico", "Gnome", totalTime);
+                        lblTiempo.setText(totalTime + "");
+                        break;
+                        
+                         case "Peine":
+                        inicioTiempo = System.nanoTime();
+                        metodoNumerico.peine(cancionArrayList);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        ctlOrdenamientoCancion.ingresarTiempo("Numerico", "Peine", totalTime);
+                        lblTiempo.setText(totalTime + "");
                         break;
                 }
             }
@@ -515,7 +541,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
     }
 
     public void OrdenarCadena(String metodoOrdenacion) {
-       if (jCBTipoOrdenamiento.getSelectedIndex() != 0) {
+        if (jCBTipoOrdenamiento.getSelectedIndex() != 0) {
             if (ctlOrdenamientoCancion.getCantidadDatos()) {
                 JOptionPane.showMessageDialog(null, "No hay datos para organizar");
             } else {
@@ -529,7 +555,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Burbuja", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
                         break;
                     case "Bidireccional":
                         inicioTiempo = System.nanoTime();
@@ -537,7 +563,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Bidireccional", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
                         break;
                     case "Mezcla":
                         inicioTiempo = System.nanoTime();
@@ -545,7 +571,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Mezcla", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
                         break;
 
                     case "Selección":
@@ -554,7 +580,16 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Selección", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
+                        break;
+
+                    case "Inserción":
+                        inicioTiempo = System.nanoTime();
+                        metodoCadena.insertionSortList(cancionArrayList);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Inserción", totalTime);
+                        lblTiempo.setText(totalTime + "");
                         break;
 
                     case "Shell":
@@ -563,7 +598,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Shell", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
                         break;
 
                     case "Rápido":
@@ -572,7 +607,25 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Rápido", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
+                        break;
+                        
+                          case "Gnome":
+                        inicioTiempo = System.nanoTime();
+                        metodoCadena.ordenarGnome(cancionArrayList);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Gnome", totalTime);
+                        lblTiempo.setText(totalTime + "");
+                        break;
+                        
+                         case "Peine":
+                        inicioTiempo = System.nanoTime();
+                        metodoCadena.peine(cancionArrayList);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Peine", totalTime);
+                        lblTiempo.setText(totalTime + "");
                         break;
                 }
             }
@@ -580,7 +633,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
     }
 
     public void OrdenarFecha(String metodoOrdenacion) {
-          if (jCBTipoOrdenamiento.getSelectedIndex() != 0) {
+        if (jCBTipoOrdenamiento.getSelectedIndex() != 0) {
             if (ctlOrdenamientoCancion.getCantidadDatos()) {
                 JOptionPane.showMessageDialog(null, "No hay datos para organizar");
             } else {
@@ -594,7 +647,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Fecha", "Burbuja", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
                         break;
                     case "Bidireccional":
                         inicioTiempo = System.nanoTime();
@@ -602,15 +655,16 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Fecha", "Bidireccional", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
                         break;
+                        
                     case "Mezcla":
                         inicioTiempo = System.nanoTime();
                         metodoFecha.mergeSort(cancionArrayList);
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Fecha", "Mezcla", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
                         break;
 
                     case "Selección":
@@ -619,7 +673,16 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Fecha", "Selección", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
+                        break;
+
+                    case "Inserción":
+                        inicioTiempo = System.nanoTime();
+                        metodoFecha.insertionSortList(cancionArrayList);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        ctlOrdenamientoCancion.ingresarTiempo("Cadena", "Inserción", totalTime);
+                        lblTiempo.setText(totalTime + "");
                         break;
 
                     case "Shell":
@@ -628,7 +691,7 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Fecha", "Shell", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
                         break;
 
                     case "Rápido":
@@ -637,21 +700,39 @@ public class pnlMetodosOrdenacion extends javax.swing.JPanel {
                         tiempoFin = System.nanoTime();
                         totalTime = tiempoFin - inicioTiempo;
                         ctlOrdenamientoCancion.ingresarTiempo("Fecha", "Rápido", totalTime);
-                        lblTiempo.setText(totalTime+"");
+                        lblTiempo.setText(totalTime + "");
+                        break;
+                        
+                        case "Gnome":
+                        inicioTiempo = System.nanoTime();
+                        metodoFecha.ordenarGnome(cancionArrayList);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        ctlOrdenamientoCancion.ingresarTiempo("Fecha", "Gnome", totalTime);
+                        lblTiempo.setText(totalTime + "");
+                        break;
+                        
+                         case "Peine":
+                        inicioTiempo = System.nanoTime();
+                        metodoFecha.peine(cancionArrayList);
+                        tiempoFin = System.nanoTime();
+                        totalTime = tiempoFin - inicioTiempo;
+                        ctlOrdenamientoCancion.ingresarTiempo("Fecha", "Peine", totalTime);
+                        lblTiempo.setText(totalTime + "");
                         break;
                 }
             }
         }
     }
 
-        /**
-         * Hola ¿Como estas?
-         */
-    private void listarCanciones(){
+    /**
+     * Hola ¿Como estas?
+     */
+    private void listarCanciones() {
         tblDatosOriginales.setModel(ctlOrdenamientoCancion.listarCanciones());
     }
 
-    private void listarCancionesOrdenadas(){
+    private void listarCancionesOrdenadas() {
         tblDatosOrdenados.setModel(ctlOrdenamientoCancion.listarCanciones());
     }
 }

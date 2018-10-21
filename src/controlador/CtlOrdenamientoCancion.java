@@ -18,6 +18,8 @@ import modelo.Cancion;
 public class CtlOrdenamientoCancion {
 
     public static ArrayList<Cancion> cancionArrayList;
+    public static Cancion[] cancionArreglo;
+    
     private static int cantidadDatos;
     Consultas consulta;
 

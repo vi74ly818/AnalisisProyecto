@@ -253,5 +253,42 @@ public class MetodosCadenas {
             wholeIndex++;
         }
     }
+    
+     public List<Cancion> ordenarGnome(List<Cancion> lista) {
+        for (int i = 0; i < lista.size(); i++) {
+            burbujaCadena(lista);
+        }
+        return lista;
+    }
+    
+    public List<Cancion> peine (List<Cancion> lista) {
+                boolean permut = true;
+		// A gap starting from the length
+		int gap = lista.size();
+		int j;
+		while((permut) || gap>1) {
+			 permut = false;
+			
+			gap = (int) (gap / 1.3);
+                       
+                        if(gap<1){
+                            gap=1;
+                        }
+			for (j=0; j<lista.size()-gap; j++) { //j=0
+				
+				if (lista.get(j).getNombre().compareTo(lista.get(j+gap).getNombre()) > 0 ) {
+					permut = true;
+                                        
+                                    // Intercambiamos los dos elementos
+                                
+                                    String temp = lista.get(j).getNombre();
+                                    lista.get(j).setNombre(lista.get(j+gap).getNombre());
+                                    lista.get(j+gap).setNombre(temp);
+				}
+			}
+			
+		}
+                return lista;
+	}
    
 }

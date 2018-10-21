@@ -5,6 +5,7 @@
  */
 package Ordenamientos;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.Cancion;
@@ -249,4 +250,42 @@ public class MetodosFecha {
             wholeIndex++;
         }
     }
+
+ public List<Cancion> ordenarGnome(List<Cancion> lista) {
+        for (int i = 0; i < lista.size(); i++) {
+            OrdenarBurbujaList(lista);
+        }
+        return lista;
+    }
+    
+    public List<Cancion> peine (List<Cancion> lista) {
+                boolean permut = true;
+		// A gap starting from the length
+		int gap = lista.size();
+		int j;
+		while((permut) || gap>1) {
+			 permut = false;
+			
+			gap = (int) (gap / 1.3);
+                       
+                        if(gap<1){
+                            gap=1;
+                        }
+			for (j=0; j<lista.size()-gap; j++) { //j=0
+				
+				if (lista.get(j).getLanzamiento().compareTo(lista.get(j+gap).getLanzamiento()) > 0 ) {
+					permut = true;
+                                        
+                                    // Intercambiamos los dos elementos
+                                
+                                    Date temp = lista.get(j).getLanzamiento();
+                                    lista.get(j).setLanzamiento(lista.get(j+gap).getLanzamiento());
+                                    lista.get(j+gap).setLanzamiento(temp);
+				}
+			}
+			
+		}
+                return lista;
+	}
 }
+
