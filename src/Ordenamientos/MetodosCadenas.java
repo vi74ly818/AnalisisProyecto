@@ -299,5 +299,41 @@ public class MetodosCadenas {
 		}
                 return lista;
 	}
+    
+        public List<Cancion> ordenacionMonticulos(List<Cancion> lista) {
+        final int N = lista.size();
+        for (int nodo = N / 2; nodo >= 0; nodo--) {
+            hacerMonticulo(lista, nodo, N - 1);
+        }
+        for (int nodo = N - 1; nodo >= 0; nodo--) {
+            Cancion tmp = lista.get(0);
+            lista.set(0, lista.get(nodo));
+            lista.set(nodo, tmp);
+            hacerMonticulo(lista, 0, nodo - 1);
+        }
+
+        return lista;
+    }
+
+
+    public void hacerMonticulo(List<Cancion> lista, int nodo, int fin) {
+        int izq = 2 * nodo + 1;
+        int der = izq + 1;
+        int may;
+        if (izq > fin) {
+            return;
+        }
+        if (der > fin) {
+            may = izq;
+        } else {
+            may = lista.get(izq).getNombre().compareTo(lista.get(der).getNombre()) > 0 ? izq : der;
+        }
+        if (lista.get(nodo).getNombre().compareTo(lista.get(may).getNombre()) < 0) {
+            Cancion tmp = lista.get(nodo);
+            lista.set(nodo, lista.get(may));
+            lista.set(may, tmp);
+            hacerMonticulo(lista, may, fin);
+        }
+    }
    
 }
