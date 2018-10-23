@@ -5,7 +5,7 @@
  */
 package controlador;
 
-import Ordenamientos.Consultas;
+import Conexion.Consultas;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -18,10 +18,6 @@ import modelo.Cancion;
 public class CtlOrdenamientoCancion {
 
     public static ArrayList<Cancion> cancionArrayList;
-
-  
-    
-    
     private static int cantidadDatos;
     Consultas consulta;
 

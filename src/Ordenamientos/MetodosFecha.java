@@ -64,7 +64,6 @@ public class MetodosFecha {
                     temp = arregloDesorden.get(k);
                     arregloDesorden.set(k, arregloDesorden.get(k - 1));
                     arregloDesorden.set(k - 1, temp);
-
                 }
             }
         }
@@ -251,42 +250,43 @@ public class MetodosFecha {
         }
     }
 
-    public List<Cancion> ordenarGnome(List<Cancion> lista) {
+ public List<Cancion> ordenarGnome(List<Cancion> lista) {
         for (int i = 0; i < lista.size(); i++) {
             OrdenarBurbujaList(lista);
         }
         return lista;
     }
-
-    public List<Cancion> peine(List<Cancion> lista) {
-        boolean permut = true;
-        // A gap starting from the length
-        int gap = lista.size();
-        int j;
-        while ((permut) || gap > 1) {
-            permut = false;
-
-            gap = (int) (gap / 1.3);
-
-            if (gap < 1) {
-                gap = 1;
-            }
-            for (j = 0; j < lista.size() - gap; j++) { //j=0
-
-                if (lista.get(j).getLanzamiento().compareTo(lista.get(j + gap).getLanzamiento()) > 0) {
-                    permut = true;
-
-                    // Intercambiamos los dos elementos
-                    Date temp = lista.get(j).getLanzamiento();
-                    lista.get(j).setLanzamiento(lista.get(j + gap).getLanzamiento());
-                    lista.get(j + gap).setLanzamiento(temp);
-                }
-            }
-
-        }
-        return lista;
-    }
-
+    
+    public List<Cancion> peine (List<Cancion> lista) {
+                boolean permut = true;
+		// A gap starting from the length
+		int gap = lista.size();
+		int j;
+		while((permut) || gap>1) {
+			 permut = false;
+			
+			gap = (int) (gap / 1.3);
+                       
+                        if(gap<1){
+                            gap=1;
+                        }
+			for (j=0; j<lista.size()-gap; j++) { //j=0
+				
+				if (lista.get(j).getLanzamiento().compareTo(lista.get(j+gap).getLanzamiento()) > 0 ) {
+					permut = true;
+                                        
+                                    // Intercambiamos los dos elementos
+                                
+                                    Date temp = lista.get(j).getLanzamiento();
+                                    lista.get(j).setLanzamiento(lista.get(j+gap).getLanzamiento());
+                                    lista.get(j+gap).setLanzamiento(temp);
+				}
+			}
+			
+		}
+                return lista;
+	}
+    
     public List<Cancion> ordenacionMonticulos(List<Cancion> lista) {
         final int N = lista.size();
         for (int nodo = N / 2; nodo >= 0; nodo--) {
@@ -322,3 +322,4 @@ public class MetodosFecha {
         }
     }
 }
+

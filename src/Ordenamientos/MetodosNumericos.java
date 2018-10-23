@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package Ordenamientos;
-
+ 
 import modelo.Cancion;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,18 +17,16 @@ public class MetodosNumericos {
 
     public List<Cancion> burbujaNumerica(List<Cancion> lista) {
         for (int i = 1; i < lista.size(); i++) {
+            System.out.println(i);
             for (int j = 0; j < lista.size() - i; j++) {
                 if (lista.get(j).getDuracion() > lista.get(j + 1).getDuracion()) {
                     Cancion aux = lista.get(j);
                     lista.set(j, lista.get(j + 1));
                     lista.set(j + 1, aux);
                 }
-                System.out.println(lista.get(i));
             }
-
         }
         return lista;
-
     }
 
     public List<Cancion> insertionSortNum(List<Cancion> lista) {
@@ -236,41 +234,43 @@ public class MetodosNumericos {
 
     }
 
+   
     public List<Cancion> ordenarGnome(List<Cancion> lista) {
         for (int i = 0; i < lista.size(); i++) {
             burbujaNumerica(lista);
         }
         return lista;
     }
-
-    public List<Cancion> peine(List<Cancion> lista) {
-        boolean permut = true;
-        // A gap starting from the length
-        int gap = lista.size();
-        int j;
-        while ((permut) || gap > 1) {
-            permut = false;
-
-            gap = (int) (gap / 1.3);
-
-            if (gap < 1) {
-                gap = 1;
-            }
-            for (j = 0; j < lista.size() - gap; j++) { //j=0
-
-                if (lista.get(j).getDuracion() > lista.get(j + gap).getDuracion()) {
-                    permut = true;
-
-                    // Intercambiamos los dos elementos
-                    int temp = lista.get(j).getDuracion();
-                    lista.get(j).setDuracion(lista.get(j + gap).getDuracion());
-                    lista.get(j + gap).setDuracion(temp);
-                }
-            }
-
-        }
-        return lista;
-    }
+    
+    public List<Cancion> peine (List<Cancion> lista) {
+                boolean permut = true;
+		// A gap starting from the length
+		int gap = lista.size();
+		int j;
+		while((permut) || gap>1) {
+			 permut = false;
+			
+			gap = (int) (gap / 1.3);
+                       
+                        if(gap<1){
+                            gap=1;
+                        }
+			for (j=0; j<lista.size()-gap; j++) { //j=0
+				
+				if (lista.get(j).getDuracion() > lista.get(j+gap).getDuracion() ) {
+					permut = true;
+                                        
+                                    // Intercambiamos los dos elementos
+                                
+                                    int temp = lista.get(j).getDuracion();
+                                    lista.get(j).setDuracion(lista.get(j+gap).getDuracion());
+                                    lista.get(j+gap).setDuracion(temp);
+				}
+			}
+			
+		}
+                return lista;
+	}
 
     /**
      *
@@ -296,10 +296,6 @@ public class MetodosNumericos {
         return -1;
     }
 
-
-    
-    
-    
     public List<Cancion> ordenacionMonticulos(List<Cancion> lista) {
         final int N = lista.size();
         for (int nodo = N / 2; nodo >= 0; nodo--) {
@@ -326,9 +322,9 @@ public class MetodosNumericos {
         if (der > fin) {
             may = izq;
         } else {
-            may = lista.get(izq).getDuracion().intValue() > lista.get(der).getDuracion().intValue() ? izq : der;
+            may = lista.get(izq).getDuracion() > lista.get(der).getDuracion() ? izq : der;
         }
-        if (lista.get(nodo).getDuracion().intValue() < lista.get(may).getDuracion().intValue()) {
+        if (lista.get(nodo).getDuracion() < lista.get(may).getDuracion()) {
             Cancion tmp = lista.get(nodo);
             lista.set(nodo, lista.get(may));
             lista.set(may, tmp);

@@ -299,8 +299,8 @@ public class MetodosCadenas {
 		}
                 return lista;
 	}
-    
-        public List<Cancion> ordenacionMonticulos(List<Cancion> lista) {
+   
+    public List<Cancion> ordenacionMonticulos(List<Cancion> lista) {
         final int N = lista.size();
         for (int nodo = N / 2; nodo >= 0; nodo--) {
             hacerMonticulo(lista, nodo, N - 1);
@@ -335,5 +335,4 @@ public class MetodosCadenas {
             hacerMonticulo(lista, may, fin);
         }
     }
-   
 }
